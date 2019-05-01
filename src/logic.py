@@ -38,28 +38,10 @@ class board():
         self.board = np.array(self.board).reshape(colums, rows)
         print(self.board)
 
-    def placebombs2darrarows(self, bombs):
-        """
-        input: number of bombs
-        do: put the bombs randomlrows in the plarowsfield
-        output: 
-        attention: do not put two bombs on the same field
+    def getBoard():
+        return(self.board)
 
-
-        """
-        for i in range(1, bombs):
-            ranlegth = random.randint(0, self.length)
-            ranwide = random.randint(0, self.wide)
-            if self.plarowsfield[ranlegth][ranwide] != 'colums':
-                self.plarowsfield[ranlegth][ranwide] = 'colums'
-                neighbarfrombombs(ranlegth, ranwide)
-            else:
-                bombs += 1
-        
-    def placebombsmatricolums(bombs):
-        pass
-
-    def createwarnfileds(self):
+    def createWarnFields(self):
         result = np.where(self.board == 10)
         listOfCoordinates = list(zip(result[1], result[0]))
         print(listOfCoordinates)
