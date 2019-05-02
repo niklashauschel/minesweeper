@@ -1,11 +1,18 @@
 
 import random
 import numpy as np
+"""
+import logging
+LOG_FILENAME = 'example.log'
+logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
+
+logging.debug('This message should go to the log file')
+"""
 
 
 class board():
     """
-    
+      creating and working an the board 
     """
     def __init__(self, rows, colums, bombs):
         """
@@ -18,12 +25,12 @@ class board():
         self.colums = colums
         self.bombs = bombs
         notbombs = self.rows * self.colums - bombs
-        if (notbombs <= 0):
+        if (notbombs > 0):
             self.board = [10]*self.bombs + notbombs*[0]  # 10 is standing for bombs
             random.shuffle(self.board)
             self.board = np.array(self.board).reshape(rows, colums)
         else:
-            console.log("There are to many bombs")
+            print("There are to many bombs")
 
     def getBoard(self):
         """
@@ -38,7 +45,7 @@ class board():
         try:
             return(self.board[colum][row])
         except IndexError:
-            console.log("This is a mistake in the GUI")
+            print("This is a mistake in the GUI")
 
     def createWarnFields(self):
         """
@@ -62,10 +69,12 @@ class board():
                             not(i == 0 and j == 0)):
                             if(self.board[rowsneighbor][columsneighbor] != 10):
                                 self.board[rowsneighbor][columsneighbor] += 1             
-
-objplacolumsfield = board(1, 2, 0)
+'''
+the following methods are only for testing casses
+'''
+objplacolumsfield = board(5, 8, 3)
 objplacolumsfield.createWarnFields()
-value = objplacolumsfield.getvaluefromBoard(0, 0)
+value = objplacolumsfield.getvaluefromBoard(1, 0)
 board = objplacolumsfield.getBoard()
 print(value)
 print(board)
