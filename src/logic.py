@@ -36,10 +36,10 @@ class board():
         self.board = [10]*self.bombs + notbombs*[0]
         random.shuffle(self.board)
         self.board = np.array(self.board).reshape(colums, rows)
-        print(self.board)
 
     def getBoard():
         return(self.board)
+# kilometerstand = property(fset=set_kilometerstand, fget=get_kilometerstand)
 
     def createWarnFields(self):
         result = np.where(self.board == 10)
@@ -72,6 +72,6 @@ class board():
         print(self.board)                        
 
 objplarowsfield = board(5, 8, 9)
-objplarowsfield.createwarnfileds()
+objplarowsfield.createWarnFields()
 
 print(objplarowsfield)
