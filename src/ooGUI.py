@@ -1,4 +1,5 @@
 from tkinter import *
+from logic import Board
 
 
 class Menubar:
@@ -105,31 +106,19 @@ class Configuration(Menubar):
 def endGame():
     print('TODO Endgame')
 
-'''
-    Handle the left click on a button
-'''
-def handleButtonClickLeft(event):
-    if event.widget['text'] == 'x':
-        print('You clicked on a mine')
-        endGame()
-    else:
-        print("You didn't clicked on a mine")
-    print("hi rigth", event.widget['text'])
-    event.widget.config(bg='red', image='')
-    event.widget.unbind('<Button-1>')
-    event.widget.unbind('<Button-3>')
 
 
-'''
-    Handle the right click on a button
-'''
-def handleButtonClickRight(event):
-    if event.widget['bg'] == 'blue':
-        event.widget.config(bg='white')
-    else:
-        event.widget.config(bg='blue')
-    print("hi left", event.widget['text'])
+
+    
+
+def getRealButtonPosition(event):
     print(event.widget.grid_info())
+    gridDict = event.widget.grid_info()
+    clickedRow = gridDict['row']
+    clickedColumn = gridDict['column']
+    clickedRow = clickedRow - 1
+    #print(clickedRow, clickedColumn)
+    return clickedRow, clickedColumn
 
 
 class Game(Menubar):
@@ -138,37 +127,74 @@ class Game(Menubar):
         self.master = master
         self.player = player
         self.setGameFieldSize()
+        self.createBoard()
         self.setUpFrame()
         self.createFirstLine()
 
         self.photo = PhotoImage(file="test.png")    
-        for x in range(self.rangex):
-            for y in range(1, self.rangey):
+        
+        for r in range(1, self.row):
+            for c in range(self.column):
 
-                name = str(x) + " " + str(y)
+                name = str(c) + " " + str(r)
                 self.btn = Button(self.frame, image=self.photo, text=name)
-                self.btn.grid(column=x, row=y, sticky=N+S+E+W)
-                self.btn.bind("<Button-1>", handleButtonClickLeft)
-                self.btn.bind("<Button-3>", handleButtonClickRight)
+                self.btn.grid(column=c, row=r, sticky=N+S+E+W)
+                self.btn.bind("<Button-1>", self.handleButtonClickLeft)
+                self.btn.bind("<Button-3>", self.handleButtonClickRight)
 
-                Grid.columnconfigure(self.frame, x, weight=1)
-                Grid.rowconfigure(self.frame, y, weight=1)
+                Grid.columnconfigure(self.frame, c, weight=1)
+                Grid.rowconfigure(self.frame, r, weight=1)
         return super().__init__(master)
 
+
+    '''
+        Handle the right click on a button
+    '''
+    def handleButtonClickRight(self, event):
+        if event.widget['bg'] == 'blue':
+            event.widget.config(bg='white')
+        else:
+            event.widget.config(bg='blue')
+
+    '''
+        Handle the left click on a button
+    '''
+    def handleButtonClickLeft(self, event):
+        r, c = getRealButtonPosition(event)
+        print(r, c)
+        valueCell = self.board1.getvaluefromBoard(c, r)
+        print(valueCell)
+        if valueCell == 10:
+            print('You clicked on a mine')
+            endGame()
+        else:
+            print("You didn't clicked on a mine")
+        event.widget.config(bg='red', image='', text=valueCell)
+        event.widget.unbind('<Button-1>')
+        event.widget.unbind('<Button-3>')
+    
     '''
         Check the input degree_of_difficulty and get the playground size
     '''
     def setGameFieldSize(self):
         # TODO Give here the module the game field size
         if self.degree_of_difficulty == 1:
-            self.rangex = 5
-            self.rangey = 5
+            self.column = 5
+            self.row = 5
+            self.mines = 3
         elif self.degree_of_difficulty == 2:
-            self.rangex = 9
-            self.rangey = 7
+            self.column = 9
+            self.row = 7
+            self.mines = 5
         else:
-            self.rangex = 18
-            self.rangey = 14
+            self.column = 18
+            self.row = 10
+            self.mines = 10
+
+    def createBoard(self):
+        self.board1 = Board(self.column, self.row, self.mines)
+        self.board1.createWarnFields()
+        print(self.board1.getBoard())
 
     ''' 
         First setup the Frame and configure the grid
@@ -188,14 +214,15 @@ class Game(Menubar):
     def createFirstLine(self):
         
         # create
-        self.time = Label(self.master, text="91 Sekunden")
+        minesNumber = str(self.mines) + " Mines"
+        self.time = Label(self.master, text=minesNumber)
         self.label1 = Label(self.frame, text="Welcome to Minesweeper")
         self.name = Label(self.frame, text=self.player)
 
         # configure
-        self.time.grid(row=0, column=0, sticky="NW", columnspan=self.rangex)
-        self.label1.grid(row=0, column=0, sticky="N", columnspan=self.rangex)
-        self.name.grid(row=0, column=0, sticky="NE", columnspan=self.rangex)
+        self.time.grid(row=0, column=0, sticky="NW", columnspan=self.row)
+        self.label1.grid(row=0, column=0, sticky="N", columnspan=self.row)
+        self.name.grid(row=0, column=0, sticky="NE", columnspan=self.row)
 
     def destroyMenu(self):
         self.master.destroy()
