@@ -37,8 +37,11 @@ class board():
         random.shuffle(self.board)
         self.board = np.array(self.board).reshape(colums, rows)
 
-    def getBoard():
+    def getBoard(self):
         return(self.board)
+
+    def getvaluefromBoard(self, colum, row):
+        return(self.board[colum, row])
 # kilometerstand = property(fset=set_kilometerstand, fget=get_kilometerstand)
 
     def createWarnFields(self):
@@ -73,5 +76,6 @@ class board():
 
 objplarowsfield = board(5, 8, 9)
 objplarowsfield.createWarnFields()
+value = objplarowsfield.getvaluefromBoard(2, 4)
 
-print(objplarowsfield)
+print(value)
