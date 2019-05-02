@@ -39,13 +39,25 @@ class board():
         self.board = np.array(self.board).reshape(colums, rows)
 
     def getBoard(self):
+        """
+        simple getter for array complete
+        """
         return(self.board)
 
     def getvaluefromBoard(self, colum, row):
+        """
+        simple getter for special value on index
+        """
         return(self.board[colum][row])
 
 
     def createWarnFields(self):
+        """
+        input: the board with only bombs and filed with no bombs
+        do: write on the filed with no bombs how much bombs are int the near
+        output: the filed with everyfiled the number of bombs in the near
+
+        """
         result = np.where(self.board == 10)
         listOfCoordinates = list(zip(result[1], result[0]))
         print(listOfCoordinates)
