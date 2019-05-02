@@ -25,15 +25,16 @@ class board():
     """
     def __init__(self, colums, rows, bombs):
         """
-        input: length:number and wide.number
-        do: create out of  input a  two dimensional list
-        output: the two dimensional list
+        input: colums and rows and bombs all numbers 
+        do: create a list with bombs and notboms fileds and shuffle them randomly 
+            then formate this list to an 2d array
+        out: the 2d array with random bombs
         """
         self.colums = colums
         self.rows = rows
         self.bombs = bombs
         notbombs = self.colums * self.rows - bombs
-        self.board = [10]*self.bombs + notbombs*[0]
+        self.board = [10]*self.bombs + notbombs*[0] # 10 is standing for bombs
         random.shuffle(self.board)
         self.board = np.array(self.board).reshape(colums, rows)
 
@@ -41,8 +42,8 @@ class board():
         return(self.board)
 
     def getvaluefromBoard(self, colum, row):
-        return(self.board[colum, row])
-# kilometerstand = property(fset=set_kilometerstand, fget=get_kilometerstand)
+        return(self.board[colum][row])
+
 
     def createWarnFields(self):
         result = np.where(self.board == 10)
@@ -51,8 +52,7 @@ class board():
         for cord in listOfCoordinates:   # funktioniert 
             columsofbomb = cord[1]              
             rowsofbomb = cord[0]
-            print('columsofbomb: ', columsofbomb)
-            print('rowsofomb: ', rowsofbomb)
+         
             for i in [-1, 0, 1]:            # marowsbe safe one loop  
                 for j in [-1, 0, 1]:
                     columsneighbor = columsofbomb + i
@@ -62,17 +62,10 @@ class board():
                         rowsneighbor >= 0 and rowsneighbor < self.rows and
                             not(i == 0 and j == 0)):
                             if(self.board[columsneighbor][rowsneighbor] != 10):
-                                print('neighbarcolums:', columsofbomb + i)
-                                print('neighabrrows: ', rowsofbomb + j)
-                                print(i, j)
+                               
                                 
                                 self.board[columsneighbor][rowsneighbor] += 1
-                    else:
-                        print('elseneighbarcolums:', columsofbomb + i)
-                        print('elseneighabrrows: ', rowsofbomb + j)
-                        print(i, j)
-                
-        print(self.board)                        
+                   
 
 objplarowsfield = board(5, 8, 9)
 objplarowsfield.createWarnFields()
