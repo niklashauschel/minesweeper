@@ -111,14 +111,7 @@ def endGame():
 
     
 
-def getRealButtonPosition(event):
-    print(event.widget.grid_info())
-    gridDict = event.widget.grid_info()
-    clickedRow = gridDict['row']
-    clickedColumn = gridDict['column']
-    clickedRow = clickedRow - 1
-    #print(clickedRow, clickedColumn)
-    return clickedRow, clickedColumn
+
 
 
 class Game(Menubar):
@@ -132,18 +125,20 @@ class Game(Menubar):
         self.createFirstLine()
 
         self.photo = PhotoImage(file="test.png")    
-        
-        for r in range(1, self.row):
-            for c in range(self.column):
+        #self.arraylist = []
+        for c in range(self.column):
+            for r in range(1, self.row+1):
+                self.name = str(c) + "," + str(r)
 
-                name = str(c) + " " + str(r)
-                self.btn = Button(self.frame, image=self.photo, text=name)
+                self.btn = Button(self.frame, image=self.photo, text=self.name)
                 self.btn.grid(column=c, row=r, sticky=N+S+E+W)
                 self.btn.bind("<Button-1>", self.handleButtonClickLeft)
                 self.btn.bind("<Button-3>", self.handleButtonClickRight)
+                #self.arraylist.append(self.btn)
 
                 Grid.columnconfigure(self.frame, c, weight=1)
                 Grid.rowconfigure(self.frame, r, weight=1)
+        #print(self.arraylist)
         return super().__init__(master)
 
 
@@ -160,9 +155,10 @@ class Game(Menubar):
         Handle the left click on a button
     '''
     def handleButtonClickLeft(self, event):
-        r, c = getRealButtonPosition(event)
-        print(r, c)
-        valueCell = self.board1.getvaluefromBoard(c, r)
+        #print(event)
+        c, r = self.getRealButtonPosition(event)
+        print(c, r)
+        valueCell = self.board1.getValueFromBoard(c, r)
         print(valueCell)
         if valueCell == 10:
             print('You clicked on a mine')
@@ -172,12 +168,21 @@ class Game(Menubar):
         event.widget.config(bg='red', image='', text=valueCell)
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
+
+    def getRealButtonPosition(self, event):
+        # print(event.widget.grid_info())
+        gridDict = event.widget.grid_info()
+        clickedRow = gridDict['row']
+        clickedColumn = gridDict['column']
+        clickedRow = clickedRow - 1
+        # for i in self.arraylist:
+        #     i.config(image='')
+        return clickedColumn, clickedRow
     
     '''
         Check the input degree_of_difficulty and get the playground size
     '''
     def setGameFieldSize(self):
-        # TODO Give here the module the game field size
         if self.degree_of_difficulty == 1:
             self.column = 5
             self.row = 5
@@ -220,9 +225,9 @@ class Game(Menubar):
         self.name = Label(self.frame, text=self.player)
 
         # configure
-        self.time.grid(row=0, column=0, sticky="NW", columnspan=self.row)
-        self.label1.grid(row=0, column=0, sticky="N", columnspan=self.row)
-        self.name.grid(row=0, column=0, sticky="NE", columnspan=self.row)
+        self.time.grid(row=0, column=0, sticky="NW", columnspan=self.column)
+        self.label1.grid(row=0, column=0, sticky="N", columnspan=self.column)
+        self.name.grid(row=0, column=0, sticky="NE", columnspan=self.column)
 
     def destroyMenu(self):
         self.master.destroy()
