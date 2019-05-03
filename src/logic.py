@@ -10,11 +10,11 @@ logging.debug('This message should go to the log file')
 """
 
 
-class board():
+class Board():
     """
       creating and working an the board 
     """
-    def __init__(self, rows, colums, bombs):
+    def __init__(self, colums, rows, bombs):
         """
         input: rows and colums and bombs all numbers
         do: create a list with bombs and notboms fileds and shuffle them randomly
@@ -24,9 +24,9 @@ class board():
         self.rows = rows
         self.colums = colums
         self.bombs = bombs
-        notbombs = self.rows * self.colums - bombs
-        if (notbombs > 0):
-            self.board = [10]*self.bombs + notbombs*[0]  # 10 is standing for bombs
+        notBombs = self.rows * self.colums - bombs
+        if (notBombs > 0):
+            self.board = [10]*self.bombs + notBombs*[0]  # 10 is standing for bombs
             random.shuffle(self.board)
             self.board = np.array(self.board).reshape(rows, colums)
         else:
@@ -38,12 +38,12 @@ class board():
         """
         return(self.board)
 
-    def getvaluefromBoard(self, colum, row):
+    def getValueFromBoard(self, colum, row):
         """
         simple getter for special value on index
         """
         try:
-            return(self.board[colum][row])
+            return(self.board[row][colum])
         except IndexError:
             print("This is a mistake in the GUI")
 
@@ -57,24 +57,24 @@ class board():
         listOfCoordinates = list(zip(result[1], result[0]))
         print(listOfCoordinates)
         for cord in listOfCoordinates:   # funktioniert
-            rowsofbomb = cord[1]
-            columsofbomb = cord[0]
+            rowsOfBomb = cord[1]
+            columsOfBomb = cord[0]
             for i in [-1, 0, 1]:            # macolumsbe safe one loop
                 for j in [-1, 0, 1]:
-                    rowsneighbor = rowsofbomb + i
-                    columsneighbor = columsofbomb + j
-                    if(rowsneighbor >= 0 and
-                        rowsneighbor < self.rows and
-                        columsneighbor >= 0 and columsneighbor < self.colums and
+                    rowsNeighbor = rowsOfBomb + i
+                    columsNeighbor = columsOfBomb + j
+                    if(rowsNeighbor >= 0 and
+                        rowsNeighbor < self.rows and
+                        columsNeighbor >= 0 and columsNeighbor < self.colums and
                             not(i == 0 and j == 0)):
-                            if(self.board[rowsneighbor][columsneighbor] != 10):
-                                self.board[rowsneighbor][columsneighbor] += 1             
+                            if(self.board[rowsNeighbor][columsNeighbor] != 10):
+                                self.board[rowsNeighbor][columsNeighbor] += 1             
 '''
 the following methods are only for testing casses
 '''
-objplacolumsfield = board(5, 8, 3)
+objplacolumsfield = Board(9, 7, 3)
 objplacolumsfield.createWarnFields()
-value = objplacolumsfield.getvaluefromBoard(1, 0)
+value = objplacolumsfield.getValueFromBoard(1, 0)
 board = objplacolumsfield.getBoard()
 print(value)
 print(board)
