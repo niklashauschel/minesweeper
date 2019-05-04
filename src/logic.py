@@ -59,16 +59,34 @@ class Board():
         for cord in listOfCoordinates:   # funktioniert
             rowsOfBomb = cord[1]
             columsOfBomb = cord[0]
-            for i in [-1, 0, 1]:            # macolumsbe safe one loop
-                for j in [-1, 0, 1]:
-                    rowsNeighbor = rowsOfBomb + i
-                    columsNeighbor = columsOfBomb + j
-                    if(rowsNeighbor >= 0 and
-                        rowsNeighbor < self.rows and
-                        columsNeighbor >= 0 and columsNeighbor < self.colums and
-                            not(i == 0 and j == 0)):
+            for(rowsNeighbor, columsNeighbor) in self.getNeighbours(columsOfBomb, rowsOfBomb):
+                if(rowsNeighbor >= 0 and
+                    rowsNeighbor < self.rows and
+                        columsNeighbor >= 0 and columsNeighbor < self.colums):
                             if(self.board[rowsNeighbor][columsNeighbor] != 10):
-                                self.board[rowsNeighbor][columsNeighbor] += 1             
+                                self.board[rowsNeighbor][columsNeighbor] += 1
+
+    def getNeighbours(self, colum, row):
+
+        '''
+        Free from minesweeper.py
+        why a extra method?
+        Because you need the Neighbours for a field  in morec then one Mthod
+        input: the colum and row from one field
+        do: calculate the neighbars
+        output: the neighbarsfrom one field
+        '''
+        NEIGHBARS = ((-1, -1), (-1,  0), (-1,  1),
+                     (0, -1),            (0,  1),
+                     (1, -1), (1,  0),   (1,  1))
+        return ((row + neighbarsRow, colum + neighbarsColum) for (neighbarsRow, neighbarsColum) in NEIGHBARS)
+
+    def getAllOtherOpenfields(self, colum, row):
+        '''
+        input: an field with no bombs in the neighbarhood
+        do: search all fields around which have no bombs around and also the first field which have bombs around
+        output: all fields which should open in minesweeper, if you press a button on the filed
+        '''
 '''
 the following methods are only for testing casses
 '''
