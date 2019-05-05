@@ -81,7 +81,7 @@ class Board():
                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighbarsRow, colum + neighbarsColum) for (neighbarsRow, neighbarsColum) in NEIGHBARS)
 
-    def getAllOtherOpenfields(self, colum, row, _openfields):
+    def getAllOtherOpenfields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
         '''
         input: an field with no bombs in the neighbarhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
@@ -107,7 +107,7 @@ class Board():
                         (rowsNeighbor, columsNeighbor) in openfields):
                         return openfields
 
-ti
+
 
 
 
