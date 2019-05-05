@@ -108,6 +108,9 @@ class Board():
                         return openfields
 
 
+def testForTest():
+    return 5
+
 
 
 
