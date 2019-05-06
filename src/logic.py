@@ -98,7 +98,7 @@ class Board():
                     rowsNeighbor < self.rows and
                         columsNeighbor >= 0 and columsNeighbor < self.colums and
                         not((rowsNeighbor, columsNeighbor) in openfields)):
-                        openfields.append((columsNeighbor, rowsNeighbor))
+                        openfields.append((rowsNeighbor, columnsNeighbor))
                         if(self.board[rowsNeighbor][columsNeighbor] == 0):
                                 self.getAllOtherOpenFields(columsNeighbor, rowsNeighbor, openfields)
                         else:
@@ -118,15 +118,14 @@ class Board():
 
 
 
-'''
-the following methods are only for testing casses
+
+# the following methods are only for testing casses
 
 objplacolumsfield = Board(9, 7, 4, None)
 objplacolumsfield.createWarnFields()
 value = objplacolumsfield.getValueFromBoard(1, 0)
 board = objplacolumsfield.getBoard()
 print(board)
-nochange = objplacolumsfield.getAllOtherOpenfields(2, 2, [])
+nochange = objplacolumsfield.getAllOtherOpenFields(2, 2, [])
 print(value)
 print(nochange)
-'''
