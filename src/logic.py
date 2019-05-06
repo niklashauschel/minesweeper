@@ -94,7 +94,7 @@ class Board():
         '''
         openfields = _openfields  # Wenn wir eine leere Liste erste rekursion
         openfields.append((colum, row))
-        for(columsNeighbor, rowsNeighbor) in self.getNeighbours(colum, row):
+        for(rowsNeighbor, columsNeighbor) in self.getNeighbours(colum, row):
                 if(rowsNeighbor >= 0 and
                     rowsNeighbor < self.rows and
                         columsNeighbor >= 0 and columsNeighbor < self.colums and
