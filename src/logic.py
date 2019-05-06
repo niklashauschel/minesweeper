@@ -98,7 +98,7 @@ class Board():
                     rowsNeighbor < self.rows and
                         columsNeighbor >= 0 and columsNeighbor < self.colums and
                         not((rowsNeighbor, columsNeighbor) in openfields)):
-                        openfields.append((rowsNeighbor, columnsNeighbor))
+                        openfields.append((rowsNeighbor, columsNeighbor))
                         if(self.board[rowsNeighbor][columsNeighbor] == 0):
                                 self.getAllOtherOpenFields(columsNeighbor, rowsNeighbor, openfields)
                         else:
