@@ -14,7 +14,7 @@ class Board():
     """
       creating and working an the board 
     """
-    def __init__(self, colums, rows, bombs, board):
+    def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
         """
         input: rows and colums and bombs all numbers
         do: create a list with bombs and notboms fileds and shuffle them randomly
@@ -84,7 +84,7 @@ class Board():
                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighbarsRow, colum + neighbarsColum) for (neighbarsRow, neighbarsColum) in NEIGHBARS)
 
-    def getAllOtherOpenfields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
+    def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
         '''
         input: an field with no bombs in the neighbarhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
@@ -92,7 +92,7 @@ class Board():
         do: search all fields around which have no bombs around and also the first field which have bombs around
         output: all fields which should open in minesweeper, if you press a button on the filed
         '''
-        openfields = _openfields # Wenn wir eine leere Liste erste rekursion
+        openfields = _openfields  # Wenn wir eine leere Liste erste rekursion
         for(rowsNeighbor, columsNeighbor) in self.getNeighbours(colum, row):
                 if(rowsNeighbor >= 0 and
                     rowsNeighbor < self.rows and
@@ -123,7 +123,7 @@ def testForTest():
 
 '''
 the following methods are only for testing casses
-'''
+
 objplacolumsfield = Board(9, 7, 4, None)
 objplacolumsfield.createWarnFields()
 value = objplacolumsfield.getValueFromBoard(1, 0)
@@ -132,3 +132,4 @@ print(board)
 nochange = objplacolumsfield.getAllOtherOpenfields(2, 2, [])
 print(value)
 print(nochange)
+'''
