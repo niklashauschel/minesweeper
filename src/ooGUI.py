@@ -196,10 +196,24 @@ class Game(Menubar):
             event.widget.config(image=self.one)
         elif valueCell == 0:
             print("You didn't clicked on a mine")
-            # TODO Open cells arournd the current cell
+            self.openOtherCells(event, c, r)
             event.widget.config(image=self.zero)
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
+
+    def openOtherCells(self, event, c, r):
+        '''
+            TODO write docstring
+        '''
+        # openFieldList = [(0, 0), (1, 1)]
+        print(c, r)
+        openFieldList = self.board1.getAllOtherOpenFields(c, r, [])
+        print(openFieldList)
+        for cell in openFieldList:
+            c = cell[0]
+            r = cell[1]
+            print('c', c)
+            print('r', r)
 
     def setUpImages(self):
         '''
@@ -253,14 +267,14 @@ class Game(Menubar):
         '''
             Create Board with module logic, need the column, row and the nuber of mines for the game
         '''
-        self.board1 = Board(self.column, self.row, self.mines)
+        self.board1 = Board(self.column, self.row, self.mines, None)
         self.board1.createWarnFields()
         print(self.board1.getBoard())
 
     def setUpFrame(self):
         ''' 
             First setup the Frame and configure the grid
-            # Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
+            Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
         '''
         self.frame = Frame(self.master)
         self.frame.grid(row=0, column=0, sticky=N+S+E+W)
