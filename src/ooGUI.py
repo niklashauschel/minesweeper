@@ -212,8 +212,29 @@ class Game(Menubar):
         for cell in openFieldList:
             c = cell[0]
             r = cell[1]
-            print('c', c)
-            print('r', r)
+            valueCell = self.board1.getValueFromBoard(c, r)
+            cellname = str(c) + ',' + str(r)
+           
+            if valueCell == 8:
+                self.ButtonNameDict[cellname].config(image=self.eight)
+            elif valueCell == 7:
+                self.ButtonNameDict[cellname].config(image=self.seven)
+            elif valueCell == 6:
+                self.ButtonNameDict[cellname].config(image=self.six)
+            elif valueCell == 5:
+                self.ButtonNameDict[cellname].config(image=self.five)
+            elif valueCell == 4:
+                self.ButtonNameDict[cellname].config(image=self.four)
+            elif valueCell == 3:
+                self.ButtonNameDict[cellname].config(image=self.three)
+            elif valueCell == 2:
+                self.ButtonNameDict[cellname].config(image=self.two)
+            elif valueCell == 1:
+                self.ButtonNameDict[cellname].config(image=self.one)
+            elif valueCell == 0:
+                self.ButtonNameDict[cellname].config(image=self.zero)
+            self.ButtonNameDict[cellname].unbind('<Button-1>')
+            self.ButtonNameDict[cellname].unbind('<Button-3>')
 
     def setUpImages(self):
         '''
