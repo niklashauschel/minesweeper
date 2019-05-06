@@ -2,6 +2,11 @@ from tkinter import *
 from logic import Board
 
 
+# Loop over all buttonname
+# for i in self.ButtonNameDict.values():
+#   i.config(image='')
+
+
 class Menubar:
     def __init__(self, master):
         self.master = master
@@ -107,13 +112,6 @@ def endGame():
     print('TODO Endgame')
 
 
-
-
-    
-
-
-
-
 class Game(Menubar):
     def __init__(self, master, player, degree_of_difficulty):
         self.degree_of_difficulty = degree_of_difficulty
@@ -124,59 +122,110 @@ class Game(Menubar):
         self.setUpFrame()
         self.createFirstLine()
 
-        self.photo = PhotoImage(file="test.png")    
-        #self.arraylist = []
+        self.setUpImages()
+        self.ButtonNameDict = {}
         for c in range(self.column):
             for r in range(1, self.row+1):
-                self.name = str(c) + "," + str(r)
-
-                self.btn = Button(self.frame, image=self.photo, text=self.name)
+                self.btn = Button(self.frame, image=self.white, bg='#FFFFFF')
                 self.btn.grid(column=c, row=r, sticky=N+S+E+W)
                 self.btn.bind("<Button-1>", self.handleButtonClickLeft)
                 self.btn.bind("<Button-3>", self.handleButtonClickRight)
-                #self.arraylist.append(self.btn)
-
                 Grid.columnconfigure(self.frame, c, weight=1)
                 Grid.rowconfigure(self.frame, r, weight=1)
-        #print(self.arraylist)
+                realR = r - 1
+                self.name = str(c) + "," + str(realR)
+                self.ButtonNameDict[self.name] = self.btn
+        #print(self.ButtonNameDict)
         return super().__init__(master)
 
-
     '''
-        Handle the right click on a button
+        Handle the right click on a button. Search Bug image for the first click on a button.
+        The next change it back to the white image.
+        in: click event
+        out: -
     '''
     def handleButtonClickRight(self, event):
-        if event.widget['bg'] == 'blue':
-            event.widget.config(bg='white')
+        if event.widget['bg'] == '#FF0000':
+            event.widget.config(image=self.white, bg='#FFFFFF')
         else:
-            event.widget.config(bg='blue')
-
+            event.widget.config(image=self.search_bug, bg='#FF0000')
+ 
     '''
         Handle the left click on a button
+        in: click event
+        out: -
     '''
     def handleButtonClickLeft(self, event):
-        #print(event)
         c, r = self.getRealButtonPosition(event)
         print(c, r)
         valueCell = self.board1.getValueFromBoard(c, r)
         print(valueCell)
+        if event.widget['bg'] == '#FF0000':
+            event.widget.config(bg='#FFFFFF')
         if valueCell == 10:
             print('You clicked on a mine')
+            event.widget.config(image=self.bug)
             endGame()
-        else:
+        elif valueCell == 8:
             print("You didn't clicked on a mine")
-        event.widget.config(bg='red', image='', text=valueCell)
+            event.widget.config(image=self.eight)
+        elif valueCell == 7:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.seven)
+        elif valueCell == 6:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.six)
+        elif valueCell == 5:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.five)
+        elif valueCell == 4:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.four)
+        elif valueCell == 3:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.three)
+        elif valueCell == 2:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.two)
+        elif valueCell == 1:
+            print("You didn't clicked on a mine")
+            event.widget.config(image=self.one)
+        elif valueCell == 0:
+            print("You didn't clicked on a mine")
+            # TODO Open cells arournd the current cell
+            event.widget.config(image=self.zero)
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
 
+    '''
+        The method set up all images for the game
+        in: -
+        out: -
+    '''
+    def setUpImages(self):
+        self.white = PhotoImage(file="assets/white.png")
+        self.bug = PhotoImage(file="assets/bug.png")
+        self.search_bug = PhotoImage(file="assets/search_bug.png")
+        self.zero = PhotoImage(file="assets/zero.png")
+        self.one = PhotoImage(file="assets/one.png")
+        self.two = PhotoImage(file="assets/two.png")
+        self.three = PhotoImage(file="assets/three.png")
+        self.four = PhotoImage(file="assets/four.png")
+        self.five = PhotoImage(file="assets/five.png")
+        self.six = PhotoImage(file="assets/six.png")
+        self.seven = PhotoImage(file="assets/seven.png")
+        self.eight = PhotoImage(file="assets/eight.png")
+
+    '''
+        Calculate the real position of the Button
+        in: click event
+        out: position column, row
+    '''
     def getRealButtonPosition(self, event):
-        # print(event.widget.grid_info())
         gridDict = event.widget.grid_info()
         clickedRow = gridDict['row']
         clickedColumn = gridDict['column']
         clickedRow = clickedRow - 1
-        # for i in self.arraylist:
-        #     i.config(image='')
         return clickedColumn, clickedRow
     
     '''
@@ -196,6 +245,9 @@ class Game(Menubar):
             self.row = 10
             self.mines = 10
 
+    '''
+        Create Board with module logic, need the column, row and the nuber of mines for the game
+    '''
     def createBoard(self):
         self.board1 = Board(self.column, self.row, self.mines)
         self.board1.createWarnFields()
