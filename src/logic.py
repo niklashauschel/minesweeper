@@ -93,7 +93,7 @@ class Board():
         output: all fields which should open in minesweeper, if you press a button on the filed
         '''
         openfields = _openfields  # Wenn wir eine leere Liste erste rekursion
-        openfields.append(colum, row)
+        openfields.append((colum, row)
         for(columsNeighbor, rowsNeighbor) in self.getNeighbours(colum, row):
                 if(rowsNeighbor >= 0 and
                     rowsNeighbor < self.rows and
