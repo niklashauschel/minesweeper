@@ -98,20 +98,17 @@ class Board():
                     rowsNeighbor < self.rows and
                         columsNeighbor >= 0 and columsNeighbor < self.colums and
                         not((rowsNeighbor, columsNeighbor) in openfields)):
-                        openfields.append((rowsNeighbor, columsNeighbor))
+                        openfields.append((columsNeighbor, rowsNeighbor))
                         if(self.board[rowsNeighbor][columsNeighbor] == 0):
-                                self.getAllOtherOpenfields(columsNeighbor, rowsNeighbor, openfields)
+                                self.getAllOtherOpenFields(columsNeighbor, rowsNeighbor, openfields)
                         else:
                             if(self.board[rowsNeighbor][columsNeighbor] == 10):
                                 return print("something gone terrible wrong")
                 elif (rowsNeighbor == row + 1 and
                         columsNeighbor == colum + 1 and
-                        (rowsNeighbor, columsNeighbor) in openfields):
+                        (columsNeighbor, rowsNeighbor) in openfields):
                         return openfields
 
-
-def testForTest():
-    return 5
 
 
 
