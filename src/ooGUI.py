@@ -41,21 +41,22 @@ class Menubar:
         self.master.destroy()
 
 
-'''
-    In the class the user gets the information about the game
-'''
 class HelpUserWindow(Menubar):
+    '''
+        In the class the user gets the information about the game
+    '''
+
     def __init__(self, master):
         self.master = master
         self.creatMenuBar()
         self.label1 = Label(self.master, text="Minesweeper is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
-
-    '''
-       Overwrites the inherited method, so the windows, has another Menubar  
-    '''     
+  
     def creatMenuBar(self):
+        '''
+            Overwrites the inherited method, so the windows, has another Menubar  
+        '''
         self.menubar = Menu(self.master)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Exit", command=self.exitConfig)
@@ -83,16 +84,19 @@ class Configuration(Menubar):
         self.buttonNewWindow.grid(row=6, column=1, sticky="E")
         return super().__init__(master)
 
-    '''
-        Create the Radiobuttons and set easy as the dafault value
-    '''
     def createRadioButtons(self):
+        '''
+            Create the Radiobuttons and set easy as the dafault value
+        '''
         self.radiobutton1 = Radiobutton(self.master, text="Easy", variable=self.v, value=1)
         self.radiobutton2 = Radiobutton(self.master, text="Medium", variable=self.v, value=2)
         self.radiobutton3 = Radiobutton(self.master, text="Hard", variable=self.v, value=3)
         self.v.set(1)
 
     def destroyMenu(self):
+        '''
+            Destroy the current window
+        '''
         self.master.destroy()
 
     def createGame(self):
@@ -135,27 +139,27 @@ class Game(Menubar):
                 realR = r - 1
                 self.name = str(c) + "," + str(realR)
                 self.ButtonNameDict[self.name] = self.btn
-        #print(self.ButtonNameDict)
+        # print(self.ButtonNameDict)
         return super().__init__(master)
 
-    '''
-        Handle the right click on a button. Search Bug image for the first click on a button.
-        The next change it back to the white image.
-        in: click event
-        out: -
-    '''
     def handleButtonClickRight(self, event):
+        '''
+            Handle the right click on a button. Search Bug image for the first click on a button.
+            The next change it back to the white image.
+            in: click event
+            out: -
+        '''
         if event.widget['bg'] == '#FF0000':
             event.widget.config(image=self.white, bg='#FFFFFF')
         else:
             event.widget.config(image=self.search_bug, bg='#FF0000')
  
-    '''
-        Handle the left click on a button
-        in: click event
-        out: -
-    '''
     def handleButtonClickLeft(self, event):
+        '''
+            Handle the left click on a button
+            in: click event
+            out: -
+        '''
         c, r = self.getRealButtonPosition(event)
         print(c, r)
         valueCell = self.board1.getValueFromBoard(c, r)
@@ -197,12 +201,12 @@ class Game(Menubar):
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
 
-    '''
-        The method set up all images for the game
-        in: -
-        out: -
-    '''
     def setUpImages(self):
+        '''
+            The method set up all images for the game
+            in: -
+            out: -
+        '''
         self.white = PhotoImage(file="assets/white.png")
         self.bug = PhotoImage(file="assets/bug.png")
         self.search_bug = PhotoImage(file="assets/search_bug.png")
@@ -216,22 +220,22 @@ class Game(Menubar):
         self.seven = PhotoImage(file="assets/seven.png")
         self.eight = PhotoImage(file="assets/eight.png")
 
-    '''
-        Calculate the real position of the Button
-        in: click event
-        out: position column, row
-    '''
     def getRealButtonPosition(self, event):
+        '''
+            Calculate the real position of the Button, because on row is used for the Game information
+            in: click event
+            out: position column, row
+        '''
         gridDict = event.widget.grid_info()
         clickedRow = gridDict['row']
         clickedColumn = gridDict['column']
         clickedRow = clickedRow - 1
         return clickedColumn, clickedRow
-    
-    '''
-        Check the input degree_of_difficulty and get the playground size
-    '''
+
     def setGameFieldSize(self):
+        '''
+            Check the input degree_of_difficulty and get the playground size
+        '''
         if self.degree_of_difficulty == 1:
             self.column = 5
             self.row = 5
@@ -245,31 +249,30 @@ class Game(Menubar):
             self.row = 10
             self.mines = 10
 
-    '''
-        Create Board with module logic, need the column, row and the nuber of mines for the game
-    '''
     def createBoard(self):
+        '''
+            Create Board with module logic, need the column, row and the nuber of mines for the game
+        '''
         self.board1 = Board(self.column, self.row, self.mines)
         self.board1.createWarnFields()
         print(self.board1.getBoard())
 
-    ''' 
-        First setup the Frame and configure the grid
-        # Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
-    '''
     def setUpFrame(self):
+        ''' 
+            First setup the Frame and configure the grid
+            # Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
+        '''
         self.frame = Frame(self.master)
         self.frame.grid(row=0, column=0, sticky=N+S+E+W)
         self.grid = Frame(self.frame)
         self.grid.grid(sticky=N+S+E+W, column=0, row=0)
         Grid.rowconfigure(self.frame, 0, weight=1)
         Grid.columnconfigure(self.frame, 0, weight=1)
-    
-    ''' 
-        Create first line of the game field and configure the line of labels based on playing field width
-    '''
+
     def createFirstLine(self):
-        
+        ''' 
+            Create first line of the game field and configure the line of labels based on playing field width
+        '''
         # create
         minesNumber = str(self.mines) + " Mines"
         self.time = Label(self.master, text=minesNumber)
@@ -282,10 +285,16 @@ class Game(Menubar):
         self.name.grid(row=0, column=0, sticky="NE", columnspan=self.column)
 
     def destroyMenu(self):
+        '''
+            Destroy the current window
+        '''
         self.master.destroy()
 
-    
+
 def main():
+    '''
+        TODO Docstring
+    '''
     root = Tk()
     config = Configuration(root)
     root.title("Minesweeper Configuration")
