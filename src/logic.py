@@ -21,10 +21,11 @@ class Board():
             then formate this list to an 2d array
         out: the 2d array with random bombs
         """
+        
+        self.rows = rows
+        self.colums = colums
+        self.bombs = bombs
         if board is None:
-            self.rows = rows
-            self.colums = colums
-            self.bombs = bombs
             notBombs = self.rows * self.colums - bombs
             if (notBombs > 0):
                 self.board = [10]*self.bombs + notBombs*[0]  # 10 is standing for bombs
@@ -70,7 +71,6 @@ class Board():
                                 self.board[rowsNeighbor][columsNeighbor] += 1
 
     def getNeighbours(self, colum, row):
-
         '''
         Free from minesweeper.py
         why a extra method?
@@ -84,7 +84,10 @@ class Board():
                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighbarsRow, colum + neighbarsColum) for (neighbarsRow, neighbarsColum) in NEIGHBARS)
 
+
     def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
+        #  Eckzelle mit Zahl
+        #  keine 0 um eine 0 herum 
         '''
         input: an field with no bombs in the neighbarhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
@@ -92,22 +95,23 @@ class Board():
         do: search all fields around which have no bombs around and also the first field which have bombs around
         output: all fields which should open in minesweeper, if you press a button on the filed
         '''
-        openfields = _openfields  # Wenn wir eine leere Liste erste rekursion
-        openfields.append((colum, row))
+        openfields = _openfields
+        if not openfields:
+            openfields.append((colum, row))
         for(rowsNeighbor, columsNeighbor) in self.getNeighbours(colum, row):
                 if(rowsNeighbor >= 0 and
                     rowsNeighbor < self.rows and
                         columsNeighbor >= 0 and columsNeighbor < self.colums and
                         not((columsNeighbor, rowsNeighbor) in openfields)):
                         openfields.append((columsNeighbor, rowsNeighbor))
-                        if(self.board[rowsNeighbor][columsNeighbor] == 0):
+                        if(self.board[rowsNeighbor][columsNeighbor] == 0 and
+                                self.board[rowsNeighbor][columsNeighbor] != 10):
                                 self.getAllOtherOpenFields(columsNeighbor, rowsNeighbor, openfields)
                         else:
                             if(self.board[rowsNeighbor][columsNeighbor] == 10):
                                 return print("something gone terrible wrong")
                 elif (rowsNeighbor == row + 1 and
-                        columsNeighbor == colum + 1 and
-                        (columsNeighbor, rowsNeighbor) in openfields):
+                        columsNeighbor == colum + 1):
                         return openfields
 
 
@@ -120,13 +124,23 @@ class Board():
 
 
 
-# the following methods are only for testing casses
-
-objplacolumsfield = Board(9, 7, 4, None)
-objplacolumsfield.createWarnFields()
-value = objplacolumsfield.getValueFromBoard(1, 0)
+# the following methods are only for testing casse
+testboard =[[1, 1, 1, 0, 0],
+            [1, 10, 1, 1, 1],
+            [1, 2, 2, 2, 10],
+            [0, 1, 10, 2, 1],
+            [0, 1, 1, 1, 0]]
+objplacolumsfield = Board(5, 5, 3, testboard)
+# objplacolumsfield.createWarnFields()
+#value = objplacolumsfield.getValueFromBoard(1, 0)
 board = objplacolumsfield.getBoard()
 print(board)
-nochange = objplacolumsfield.getAllOtherOpenFields(2, 2, [])
-print(value)
+nochange = objplacolumsfield.getAllOtherOpenFields(4, 4, [])
+# print(value)
+print(nochange)
+nochange = objplacolumsfield.getAllOtherOpenFields(4, 0, [])
+# print(value)
+print(nochange)
+nochange = objplacolumsfield.getAllOtherOpenFields(0, 4, [])
+# print(value)
 print(nochange)
