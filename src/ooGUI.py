@@ -32,7 +32,7 @@ class Menubar:
         myGUI = HelpUserWindow(root2)
         Grid.rowconfigure(root2, 0, weight=1)
         Grid.columnconfigure(root2, 0, weight=1)
-        root2.title("Help with Minesweeper")
+        root2.title("Help with Find the Bug")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
         root2.mainloop()
@@ -49,7 +49,7 @@ class HelpUserWindow(Menubar):
     def __init__(self, master):
         self.master = master
         self.creatMenuBar()
-        self.label1 = Label(self.master, text="Minesweeper is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
+        self.label1 = Label(self.master, text="Find the Bug is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
   
@@ -123,7 +123,7 @@ class Configuration(Menubar):
         myGUI = Game(root2, player, degree_of_difficulty)
         Grid.rowconfigure(root2, 0, weight=1)
         Grid.columnconfigure(root2, 0, weight=1)
-        root2.title("Minesweeper Game")
+        root2.title("Find the Bug")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
         root2.mainloop()
@@ -357,7 +357,7 @@ class Game(Menubar):
         # create
         minesNumber = str(self.mines) + " Mines"
         self.time = Label(self.master, text=minesNumber)
-        self.label1 = Label(self.frame, text="Welcome to Minesweeper")
+        self.label1 = Label(self.frame, text="Welcome to Find the Bug")
         self.name = Label(self.frame, text=self.player)
 
         # configure
@@ -378,7 +378,7 @@ def main():
     '''
     root = Tk()
     config = Configuration(root)
-    root.title("Minesweeper Configuration")
+    root.title("Find the Bug Configuration")
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
     root.update()
