@@ -64,6 +64,22 @@ class HelpUserWindow(Menubar):
         self.master.config(menu=self.menubar)
 
 
+class EndGame(Menubar):
+    def __init__(self, master, player, win):
+        self.master = master
+        self.win = win
+        self.player = player
+        if self.win is False:
+            showText = 'Sorry ' + self.player + ' you have lost the game.'
+        else:
+            showText = 'Nice ' + self.player + ' you have win the game.'
+
+        print(showText, self.player)
+        self.label1 = Label(self.master, text=showText, wraplength=400, justify='left')
+        self.label1.grid()
+        return super().__init__(master)
+
+
 class Configuration(Menubar):
     def __init__(self, master):
         self.master = master
@@ -101,6 +117,7 @@ class Configuration(Menubar):
 
     def createGame(self):
         player = self.textfield.get("1.0", "end")
+        player = player.strip()
         degree_of_difficulty = self.v.get()
         root2 = Toplevel(self.master)
         myGUI = Game(root2, player, degree_of_difficulty)
@@ -110,10 +127,6 @@ class Configuration(Menubar):
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
         root2.mainloop()
-
-
-def endGame():
-    print('TODO Endgame')
 
 
 class Game(Menubar):
@@ -169,7 +182,7 @@ class Game(Menubar):
         if valueCell == 10:
             print('You clicked on a mine')
             event.widget.config(image=self.bug)
-            endGame()
+            self.endGame()
         elif valueCell == 8:
             print("You didn't clicked on a mine")
             event.widget.config(image=self.eight)
@@ -201,40 +214,73 @@ class Game(Menubar):
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
 
+    def endGame(self):
+        '''
+            The player clicked on a mine
+            do: Open all Buttons of the field
+            in: -
+            out: -
+        '''
+        print('Endgame')
+        for cellname in self.ButtonNameDict.keys():
+            name1 = cellname.split(',')
+            c = name1[0]
+            r = name1[1]
+            # print(cellname, c, r)
+            valueCell = self.board1.getValueFromBoard(int(c), int(r))
+            self.changeImageOfCell(valueCell, cellname)
+        root2 = Toplevel(self.master)
+        myGUI = EndGame(root2, self.player, False)
+        Grid.rowconfigure(root2, 0, weight=1)
+        Grid.columnconfigure(root2, 0, weight=1)
+        root2.title("End Game")
+        root2.update()
+        root2.minsize(root2.winfo_width(), root2.winfo_height())
+        root2.mainloop()
+
     def openOtherCells(self, event, c, r):
         '''
-            TODO write docstring
+            Open all cell around the clicked zero
+            do: Open a method from the logic and get a list. The List are the cells which should be programmly clicked
+            in: column (c), row (r)
+            out: -
         '''
-        # openFieldList = [(0, 0), (1, 1)]
-        print(c, r)
         openFieldList = self.board1.getAllOtherOpenFields(c, r, [])
-        print(openFieldList)
         for cell in openFieldList:
             c = cell[0]
             r = cell[1]
             valueCell = self.board1.getValueFromBoard(c, r)
             cellname = str(c) + ',' + str(r)
-           
-            if valueCell == 8:
-                self.ButtonNameDict[cellname].config(image=self.eight)
-            elif valueCell == 7:
-                self.ButtonNameDict[cellname].config(image=self.seven)
-            elif valueCell == 6:
-                self.ButtonNameDict[cellname].config(image=self.six)
-            elif valueCell == 5:
-                self.ButtonNameDict[cellname].config(image=self.five)
-            elif valueCell == 4:
-                self.ButtonNameDict[cellname].config(image=self.four)
-            elif valueCell == 3:
-                self.ButtonNameDict[cellname].config(image=self.three)
-            elif valueCell == 2:
-                self.ButtonNameDict[cellname].config(image=self.two)
-            elif valueCell == 1:
-                self.ButtonNameDict[cellname].config(image=self.one)
-            elif valueCell == 0:
-                self.ButtonNameDict[cellname].config(image=self.zero)
-            self.ButtonNameDict[cellname].unbind('<Button-1>')
-            self.ButtonNameDict[cellname].unbind('<Button-3>')
+            self.changeImageOfCell(valueCell, cellname)
+       
+    def changeImageOfCell(self, valueCell, cellname):
+        '''
+            do: Change the image of a cell with the Buttonname and unbind the click event
+            in: valueCell, cellname
+            out: -
+        '''
+        if valueCell == 10:
+            self.ButtonNameDict[cellname].config(image=self.bug)
+        elif valueCell == 8:
+            self.ButtonNameDict[cellname].config(image=self.eight)
+        elif valueCell == 7:
+            self.ButtonNameDict[cellname].config(image=self.seven)
+        elif valueCell == 6:
+            self.ButtonNameDict[cellname].config(image=self.six)
+        elif valueCell == 5:
+            self.ButtonNameDict[cellname].config(image=self.five)
+        elif valueCell == 4:
+            self.ButtonNameDict[cellname].config(image=self.four)
+        elif valueCell == 3:
+            self.ButtonNameDict[cellname].config(image=self.three)
+        elif valueCell == 2:
+            self.ButtonNameDict[cellname].config(image=self.two)
+        elif valueCell == 1:
+            self.ButtonNameDict[cellname].config(image=self.one)
+        elif valueCell == 0:
+            self.ButtonNameDict[cellname].config(image=self.zero)
+        self.ButtonNameDict[cellname].unbind('<Button-1>')
+        self.ButtonNameDict[cellname].unbind('<Button-3>')
 
     def setUpImages(self):
         '''
@@ -274,15 +320,15 @@ class Game(Menubar):
         if self.degree_of_difficulty == 1:
             self.column = 5
             self.row = 5
-            self.mines = 3
+            self.mines = 4
         elif self.degree_of_difficulty == 2:
             self.column = 9
             self.row = 7
-            self.mines = 5
+            self.mines = 10
         else:
             self.column = 18
             self.row = 10
-            self.mines = 10
+            self.mines = 30
 
     def createBoard(self):
         '''
