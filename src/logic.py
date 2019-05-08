@@ -58,7 +58,7 @@ class Board():
     def getClickedFieldsAmount(self):
         result = np.where(self.board == 11)
         listOfCoordinates = list(zip(result[1], result[0]))
-        return listOfCoordinates.length
+        return len(listOfCoordinates)
 
     def createWarnFields(self):
         """
