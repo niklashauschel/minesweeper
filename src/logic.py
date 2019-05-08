@@ -3,7 +3,7 @@ import random
 import numpy as np
 
 import logging
-LOG_FILENAME = 'Debugfile.log'
+LOG_FILENAME = 'Debugfile_logic.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
@@ -14,6 +14,9 @@ class Board():
     """
       creating and working an the board 
       tkinter need the totall different  position of colum and row
+    """
+    """
+    TODO talk if creatwarnfileds have to call in init
     """
     def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
         """
@@ -51,6 +54,11 @@ class Board():
             return(self.board[row][colum])
         except IndexError:
             print('IndexError')
+    
+    def getClickedFieldsAmount(self):
+        result = np.where(self.board == 11)
+        listOfCoordinates = list(zip(result[1], result[0]))
+        return listOfCoordinates.length
 
     def createWarnFields(self):
         """
@@ -73,8 +81,6 @@ class Board():
     def setValueFromBoard(colum, row):
         self.board[row][colum] = 11
 
-
-
     def getNeighbours(self, colum, row):
         '''
         Free from minesweeper.py
@@ -89,10 +95,9 @@ class Board():
                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighborRow, colum + neighborColum) for (neighborRow, neighborColum) in NEIGHBOURS)
 
-
     def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
-        #  Eckzelle mit Zahl
-        #  keine 0 um eine 0 herum 
+        
+        
         '''
         input: an field with no bombs in the neighborhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
@@ -119,6 +124,14 @@ class Board():
                 elif (rowsNeighbor == row + 1 and
                         columsNeighbor == colum + 1):
                         return openfields
+
+        def isBoardSovable(self):
+            """
+            TODO Check if one filed has more then 7 neighbours with bombs check off mirror axis
+            are they more not solvable in notsolvable fields folder
+
+            """
+            pass
                   
 
 
