@@ -180,7 +180,7 @@ class Game(Menubar):
         if valueCell == 10:
             print('You clicked on a mine')
             event.widget.config(image=self.bug)
-            self.endGame()
+            self.endGame(False)
         elif valueCell == 8:
             print("You didn't clicked on a mine")
             event.widget.config(image=self.eight)
@@ -209,10 +209,24 @@ class Game(Menubar):
             print("You didn't clicked on a mine")
             self.openOtherCells(event, c, r)
             event.widget.config(image=self.zero)
+        self.board1.setValueFromBoard(c, r)
+        print(c, r, 'new Vallue while clicked', self.board1.getValueFromBoard(c, r))
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
+        print(self.board1.getBoard())
+        self.checkVictory()
 
-    def endGame(self):
+    def checkVictory(self):
+        '''
+            TODO explain th method
+        '''
+        clickedCells = self.board1.getClickedFieldsAmount()
+        print(clickedCells)
+        if clickedCells == self.clicksUntilVictory:
+            print('You have won the Game')
+            self.endGame(True)
+
+    def endGame(self, win):
         '''
             The player clicked on a mine
             do: Open all Buttons of the field
@@ -227,8 +241,11 @@ class Game(Menubar):
             # print(cellname, c, r)
             valueCell = self.board1.getValueFromBoard(int(c), int(r))
             self.changeImageOfCell(valueCell, cellname)
+        self.configureEndGame(win)
+    
+    def configureEndGame(self, win):
         root2 = Toplevel(self.master)
-        myGUI = EndGame(root2, self.player, False)
+        myGUI = EndGame(root2, self.player, win)
         Grid.rowconfigure(root2, 0, weight=1)
         Grid.columnconfigure(root2, 0, weight=1)
         root2.title("End Game")
@@ -249,6 +266,8 @@ class Game(Menubar):
             valueCell = self.board1.getValueFromBoard(c, r)
             cellname = str(c) + ',' + str(r)
             self.changeImageOfCell(valueCell, cellname)
+            self.board1.setValueFromBoard(c, r)
+            print(c, r, 'new Vallue while clicked', self.board1.getValueFromBoard(c, r))
        
     def changeImageOfCell(self, valueCell, cellname):
         '''
@@ -326,6 +345,8 @@ class Game(Menubar):
             self.column = 18
             self.row = 10
             self.mines = 30
+        self.clicksUntilVictory = (self.column * self.row) - self.mines
+        print('Clicks until victory', self.clicksUntilVictory)
 
     def createBoard(self):
         '''
