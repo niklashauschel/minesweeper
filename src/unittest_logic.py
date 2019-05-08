@@ -51,6 +51,8 @@ class Testlogic(unittest.TestCase):
         listOfOpen = test.getAllOtherOpenFields(2, 0, [])
         fieldsHaveToBeOpen = [(1, 0), (2, 0), (3, 0), (1, 1), (2, 1), (3, 1)]
         self.assertTrue(not sum([not i in listOfOpen  for i in fieldsHaveToBeOpen]))
+        # copied from https://stackoverflow.com/questions/8866652/
+        # determine-if-2-lists-have-the-same-elements-regardless-of-order
         test2 = logic.Board(10, 10, 1, None)
         test2.createWarnFields()  # because sometimes they give None pack 
         for i in [0, 10]:
@@ -58,12 +60,19 @@ class Testlogic(unittest.TestCase):
                 listOfOpentest2 = test2.getAllOtherOpenFields(i, j, [])
                 self.assertIsNotNone(listOfOpentest2)
 
-    def test_getOpenFiledsNumber
+    def test_getOpenFiledsAmount(self):
+        testboard = np.array( 
+             [[1, 11, 0, 1, 1],  
+             [10, 2, 1, 1, 10],
+             [2, 11, 1, 11, 1],
+             [1, 2, 2, 1, 0],
+             [0, 1, 11, 1, 0]], dtype=int)
+        getOpenFiledsAmountTestBoard = logic.Board(5, 5, 3, testboard) 
+        self.assertEqual(getOpenFiledsAmountTestBoard.getClickedFieldsAmount(), 4)
 
 
 
-        # copied from https://stackoverflow.com/questions/8866652/
-        # determine-if-2-lists-have-the-same-elements-regardless-of-order
+      
         
 if __name__ == '__main__':
     unittest.main()
