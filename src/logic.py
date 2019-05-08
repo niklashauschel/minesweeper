@@ -1,13 +1,13 @@
 
 import random
 import numpy as np
-"""
-import logging
-LOG_FILENAME = 'example.log'
-logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
 
-logging.debug('This message should go to the log file')
-"""
+import logging
+LOG_FILENAME = 'Debugfile.log'
+logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
+
+
+
 
 
 class Board():
@@ -60,7 +60,6 @@ class Board():
         """
         result = np.where(self.board == 10)
         listOfCoordinates = list(zip(result[1], result[0]))
-        print(listOfCoordinates)
         for cord in listOfCoordinates:   # funktioniert
             rowsOfBomb = cord[1]
             columsOfBomb = cord[0]
@@ -70,6 +69,7 @@ class Board():
                         columsNeighbor >= 0 and columsNeighbor < self.colums):
                             if(self.board[rowsNeighbor][columsNeighbor] != 10):
                                 self.board[rowsNeighbor][columsNeighbor] += 1
+
     def setValueFromBoard(colum, row):
         self.board[row][colum] = 11
 
@@ -100,6 +100,7 @@ class Board():
         do: search all fields around which have no bombs around and also the first field which have bombs around
         output: all fields which should open in minesweeper, if you press a button on the filed
         '''
+        logging.debug('rekursiv call witth colum:{} row:{}'.format(colum, row))
         openfields = _openfields
         if not openfields:
             openfields.append((colum, row))
