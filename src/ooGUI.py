@@ -35,7 +35,6 @@ class Menubar:
         root2.title("Help with Find the Bug")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
-        root2.mainloop()
         
     def exitConfig(self):
         self.master.destroy()
@@ -126,7 +125,6 @@ class Configuration(Menubar):
         root2.title("Find the Bug")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
-        root2.mainloop()
 
 
 class Game(Menubar):
@@ -236,7 +234,6 @@ class Game(Menubar):
         root2.title("End Game")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
-        root2.mainloop()
 
     def openOtherCells(self, event, c, r):
         '''
