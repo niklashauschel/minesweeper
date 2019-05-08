@@ -78,7 +78,7 @@ class Board():
                             if(self.board[rowsNeighbor][columsNeighbor] != 10):
                                 self.board[rowsNeighbor][columsNeighbor] += 1
 
-    def setValueFromBoard(colum, row):
+    def setValueFromBoard(self, colum, row):
         self.board[row][colum] = 11
 
     def getNeighbours(self, colum, row):
