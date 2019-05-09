@@ -1,10 +1,11 @@
 from tkinter import *
 from logic import Board
-
+from time import *
 
 # Loop over all buttonname
 # for i in self.ButtonNameDict.values():
 #   i.config(image='')
+# TODO Uhrzeit hinzufügen
 
 
 class Menubar:
@@ -64,14 +65,15 @@ class HelpUserWindow(Menubar):
 
 
 class EndGame(Menubar):
-    def __init__(self, master, player, win):
+    def __init__(self, master, player, win, time):
         self.master = master
         self.win = win
         self.player = player
+        self.time = time
         if self.win is False:
             showText = 'Sorry ' + self.player + ' you have lost the game.'
         else:
-            showText = 'Nice ' + self.player + ' you have win the game.'
+            showText = 'Nice ' + self.player + ' you have win the game. Your time was: ' + str(self.time) + ' seconds!'
 
         print(showText, self.player)
         self.label1 = Label(self.master, text=showText, wraplength=400, justify='left')
@@ -150,7 +152,7 @@ class Game(Menubar):
                 realR = r - 1
                 self.name = str(c) + "," + str(realR)
                 self.ButtonNameDict[self.name] = self.btn
-        # print(self.ButtonNameDict)
+        self.startTime = time()
         return super().__init__(master)
 
     def handleButtonClickRight(self, event):
@@ -180,7 +182,7 @@ class Game(Menubar):
         if valueCell == 10:
             print('You clicked on a mine')
             event.widget.config(image=self.bug)
-            self.endGame(False)
+            self.endGame(False, None)
         elif valueCell == 8:
             print("You didn't clicked on a mine")
             event.widget.config(image=self.eight)
@@ -224,9 +226,12 @@ class Game(Menubar):
         print(clickedCells)
         if clickedCells == self.clicksUntilVictory:
             print('You have won the Game')
-            self.endGame(True)
+            self.endTime = time()
+            self.time = self.endTime - self.startTime
+            self.time = round(self.time)
+            self.endGame(True, self.time)
 
-    def endGame(self, win):
+    def endGame(self, win, time):
         '''
             The player clicked on a mine
             do: Open all Buttons of the field
@@ -241,11 +246,11 @@ class Game(Menubar):
             # print(cellname, c, r)
             valueCell = self.board1.getValueFromBoard(int(c), int(r))
             self.changeImageOfCell(valueCell, cellname)
-        self.configureEndGame(win)
+        self.configureEndGame(win, time)
     
-    def configureEndGame(self, win):
+    def configureEndGame(self, win, time):
         root2 = Toplevel(self.master)
-        myGUI = EndGame(root2, self.player, win)
+        myGUI = EndGame(root2, self.player, win, time)
         Grid.rowconfigure(root2, 0, weight=1)
         Grid.columnconfigure(root2, 0, weight=1)
         root2.title("End Game")
