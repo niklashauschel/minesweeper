@@ -2,21 +2,19 @@ from tkinter import *
 from logic import Board
 from time import *
 
-# Loop over all buttonname
-# for i in self.ButtonNameDict.values():
-#   i.config(image='')
-# TODO Uhrzeit hinzufügen
-
 
 class Menubar:
+    '''
+        It is the definition of the Menubar, which can be inherit by the GUI's later
+    '''
     def __init__(self, master):
         self.master = master
         self.creatMenuBar()
 
-    '''
-        Create the standard MenuBar for all of the windows
-    '''      
     def creatMenuBar(self):
+        '''
+            Create the standard MenuBar for all of the windows
+        '''
         self.menubar = Menu(self.master)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Help", command=self.helpUser)
@@ -24,11 +22,11 @@ class Menubar:
         self.filemenu.add_command(label="Exit", command=self.exitConfig)
         self.menubar.add_cascade(label="Menu", menu=self.filemenu)
         self.master.config(menu=self.menubar)
- 
-    '''
-        Creates a new window, where the rules of the game where the rules are described
-    '''
+
     def helpUser(self):
+        '''
+            Creates a new window, where the rules of the game where the rules are described
+        '''
         root2 = Toplevel(self.master)
         myGUI = HelpUserWindow(root2)
         Grid.rowconfigure(root2, 0, weight=1)
@@ -65,6 +63,10 @@ class HelpUserWindow(Menubar):
 
 
 class EndGame(Menubar):
+    '''
+        Window for the result of the game
+    '''
+
     def __init__(self, master, player, win, time):
         self.master = master
         self.win = win
@@ -82,6 +84,10 @@ class EndGame(Menubar):
 
 
 class Configuration(Menubar):
+    '''
+        Configuration Window where the game can be set up. Choice of 3 different degree of difficulty
+    '''
+
     def __init__(self, master):
         self.master = master
         self.v = IntVar()
@@ -130,6 +136,10 @@ class Configuration(Menubar):
 
 
 class Game(Menubar):
+    '''
+        Game Window with the Buttons
+    '''
+
     def __init__(self, master, player, degree_of_difficulty):
         self.degree_of_difficulty = degree_of_difficulty
         self.master = master
