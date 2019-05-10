@@ -126,6 +126,5 @@ class Board():
             """
             TODO Check if one filed has more then 7 neighbours with bombs check off mirror axis
             are they more not solvable in notsolvable fields folder
-
             """
             pass

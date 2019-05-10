@@ -9,14 +9,30 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 class Testlogic(unittest.TestCase):
+    """
+    in: -
+    do: test the definit testcases
+    out: in terminal if testcase run correctly or not
+    """
+
     def test_GetValueFromBoard(self):
+    """
+    in: value from GetValueFromBoard, self calulate value
+    do: combare if the Method GetValueFromBoard 
+    with a  the value from that is on the board itself
+    out: if test run good or with an error
+    """
         testboard = np.array([[2, 0], 
-                         [0, 0]], dtype=int)
-        
+                                 [0, 0]], dtype=int)
         test = logic.Board(2, 2, 0, testboard)
         self.assertEqual(2, test.getValueFromBoard(0, 0))
 
     def test_CreateWarnField(self):
+        """
+        in:  
+        do:
+        out:
+        """
         
         testboard = np.array([[10, 0],
                          [0, 0]], dtype=int)
@@ -67,10 +83,6 @@ class Testlogic(unittest.TestCase):
         getOpenFiledsAmountTestBoard = logic.Board(5, 5, 3, testboard) 
         self.assertEqual(getOpenFiledsAmountTestBoard.getClickedFieldsAmount(), 4)
 
-
-
-      
-        
 if __name__ == '__main__':
     unittest.main()
 
