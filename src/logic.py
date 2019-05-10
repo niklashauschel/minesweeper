@@ -7,13 +7,10 @@ LOG_FILENAME = 'Debugfile_logic.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
-
-
-
 class Board():
     """
-      creating and working an the board 
-      tkinter need the totall different  position of colum and row
+    creating and working an the board 
+    tkinter need the totall different  position of colum and row
     """
     """
     TODO talk if creatwarnfileds have to call in init
@@ -132,56 +129,3 @@ class Board():
 
             """
             pass
-                  
-
-
-
-
-
-
-
-
-'''
-
-# the following methods are only for testing casse
-
-testboard =[[1, 1, 1, 0, 0],
-            [1, 10, 1, 1, 1],
-            [1, 2, 2, 2, 10],
-            [0, 1, 10, 2, 1],
-            [0, 1, 1, 1, 0]]
-objplacolumsfield = Board(5, 5, 3, testboard)
-# objplacolumsfield.createWarnFields()
-#value = objplacolumsfield.getValueFromBoard(1, 0)
-board = objplacolumsfield.getBoard()
-print(board)
-nochange = objplacolumsfield.getAllOtherOpenFields(4, 4, [])
-# print(value)
-print(nochange)
-nochange = objplacolumsfield.getAllOtherOpenFields(4, 0, [])
-# print(value)
-print(nochange)
-nochange = objplacolumsfield.getAllOtherOpenFields(0, 4, [])
-# print(value)
-print(nochange)
-
-testboard =[[1, 1, 0, 1, 1],
-            [10, 2, 1, 1, 10],
-            [2, 10, 1, 1, 1],
-            [1, 2, 2, 1, 0],
-            [0, 1, 10, 1, 0]]
-objplacolumsfield = Board(5, 5, 3, testboard)
-# objplacolumsfield.createWarnFields()
-#value = objplacolumsfield.getValueFromBoard(1, 0)
-board = objplacolumsfield.getBoard()
-print(board)
-nochange = objplacolumsfield.getAllOtherOpenFields(2, 0, [])
-# print(value)
-print(nochange)
-# nochange = objplacolumsfield.getAllOtherOpenFields(0, 4, [])
-# print(value)
-# print(nochange)
-# nochange = objplacolumsfield.getAllOtherOpenFields(4, 4, [])
-# print(value)
-# print(nochange)
-'''
