@@ -8,11 +8,8 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 
-
-
 class Testlogic(unittest.TestCase):
     def test_GetValueFromBoard(self):
-    
         testboard = np.array([[2, 0], 
                          [0, 0]], dtype=int)
         
