@@ -1,13 +1,7 @@
 
 import random
 import numpy as np
-
 import logging
-LOG_FILENAME = 'Debugfile_logic.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
-
-
-
 
 
 class Board():
