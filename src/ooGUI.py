@@ -1,5 +1,6 @@
 from tkinter import *
 from logic import Board
+from logging import *
 from time import *
 
 
@@ -47,6 +48,8 @@ class HelpUserWindow(Menubar):
     def __init__(self, master):
         self.master = master
         self.creatMenuBar()
+        debug('Test')
+
         self.label1 = Label(self.master, text="Find the Bug is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
@@ -186,6 +189,17 @@ class Game(Menubar):
         c, r = self.getRealButtonPosition(event)
         print(c, r)
         valueCell = self.board1.getValueFromBoard(c, r)
+
+        logger1 = getLogger('myapp.area1')
+        logger2 = getLogger('myapp.area2')
+
+        logger1.debug('Test111')
+        debug('Test1')
+
+
+
+
+
         print(valueCell)
         if event.widget['bg'] == '#FF0000':
             event.widget.config(bg='#FFFFFF')
@@ -409,6 +423,11 @@ def main():
     '''
         TODO Docstring
     '''
+
+    LOG_FILENAME = 'Debugfile.log'
+    basicConfig(filename=LOG_FILENAME, level=DEBUG)
+
+
     root = Tk()
     config = Configuration(root)
     root.title("Find the Bug Configuration")
