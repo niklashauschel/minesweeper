@@ -1,7 +1,8 @@
 from tkinter import *
 from logic import Board
 from logging import *
-from time import *
+import time as t
+from datetime import *
 
 
 class Menubar:
@@ -144,6 +145,7 @@ class Game(Menubar):
     '''
 
     def __init__(self, master, player, degree_of_difficulty):
+        self.logNameClass = 'Game'
         self.degree_of_difficulty = degree_of_difficulty
         self.master = master
         self.player = player
@@ -165,7 +167,7 @@ class Game(Menubar):
                 realR = r - 1
                 self.name = str(c) + "," + str(realR)
                 self.ButtonNameDict[self.name] = self.btn
-        self.startTime = time()
+        self.startTime = t.time()
         return super().__init__(master)
 
     def handleButtonClickRight(self, event):
@@ -175,10 +177,14 @@ class Game(Menubar):
             in: click event
             out: -
         '''
+        logNameMethod = 'handleButtonClickRight'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
         if event.widget['bg'] == '#FF0000':
             event.widget.config(image=self.white, bg='#FFFFFF')
+            log.debug('Clicked Button is red, so the background color change to white')
         else:
             event.widget.config(image=self.search_bug, bg='#FF0000')
+            log.debug('Clicked Button is white, so the background color change to red')
  
     def handleButtonClickLeft(self, event):
         '''
@@ -186,73 +192,67 @@ class Game(Menubar):
             in: click event
             out: -
         '''
+        logNameMethod = 'handleButtonClickLeft'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
         c, r = self.getRealButtonPosition(event)
-        print(c, r)
         valueCell = self.board1.getValueFromBoard(c, r)
-
-        logger1 = getLogger('myapp.area1')
-        logger2 = getLogger('myapp.area2')
-
-        logger1.debug('Test111')
-        debug('Test1')
-
-
-
-
-
-        print(valueCell)
+        log.debug('Button were clicked in column {} and row {} and have the value {}'.format(c, r, valueCell))
         if event.widget['bg'] == '#FF0000':
             event.widget.config(bg='#FFFFFF')
+            log.debug('Clicked Button is red and so the background color change to white') 
         if valueCell == 10:
-            print('You clicked on a mine')
             event.widget.config(image=self.bug)
+            log.debug('Clicked Button is a bug, so the image change to the bug. Next step is that the game is lost') 
             self.endGame(False, None)
         elif valueCell == 8:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 8, so the image change to 8') 
             event.widget.config(image=self.eight)
         elif valueCell == 7:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 7, so the image change to 7') 
             event.widget.config(image=self.seven)
         elif valueCell == 6:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 6, so the image change to 6') 
             event.widget.config(image=self.six)
         elif valueCell == 5:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 5, so the image change to 5') 
             event.widget.config(image=self.five)
         elif valueCell == 4:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 4, so the image change to 4') 
             event.widget.config(image=self.four)
         elif valueCell == 3:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 3, so the image change to 3') 
             event.widget.config(image=self.three)
         elif valueCell == 2:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 2, so the image change to 2') 
             event.widget.config(image=self.two)
         elif valueCell == 1:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 1, so the image change to 1') 
             event.widget.config(image=self.one)
         elif valueCell == 0:
-            print("You didn't clicked on a mine")
+            log.debug('Clicked Button is a 0, so the image change to 0. Next step is that other cells around the button will automatically clicked') 
             self.openOtherCells(event, c, r)
             event.widget.config(image=self.zero)
         self.board1.setValueFromBoard(c, r)
-        print(c, r, 'new Vallue while clicked', self.board1.getValueFromBoard(c, r))
+        log.debug('The Button gets a new number 11 in the logic in column {} and row {}. The Button will be unbind from the click event'.format(c, r))
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
-        print(self.board1.getBoard())
+        log.debug('Current Gamefield after a click on a field\n{}'.format(self.board1.getBoard()))
         self.checkVictory()
 
     def checkVictory(self):
         '''
             TODO explain th method
         '''
+        logNameMethod = 'checkVictory'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
         clickedCells = self.board1.getClickedFieldsAmount()
-        print(clickedCells)
+        log.debug('Number of clicked Cells so far {}'.format(clickedCells))
         if clickedCells == self.clicksUntilVictory:
-            print('You have won the Game')
-            self.endTime = time()
+            self.endTime = t.time()
             self.time = self.endTime - self.startTime
             self.time = round(self.time)
+            log.debug('You have won the Game and takes {} seconds'.format(self.time))
+
             self.endGame(True, self.time)
 
     def endGame(self, win, time):
@@ -426,7 +426,7 @@ def main():
 
     LOG_FILENAME = 'Debugfile.log'
     basicConfig(filename=LOG_FILENAME, level=DEBUG)
-
+    debug('Start the game on:' + str(datetime.today()))
 
     root = Tk()
     config = Configuration(root)
