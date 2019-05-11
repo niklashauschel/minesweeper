@@ -4,6 +4,8 @@ from logging import *
 import time as t
 from datetime import *
 
+filename = 'ooGUI'
+
 
 class Menubar:
     '''
@@ -178,7 +180,7 @@ class Game(Menubar):
             out: -
         '''
         logNameMethod = 'handleButtonClickRight'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         if event.widget['bg'] == '#FF0000':
             event.widget.config(image=self.white, bg='#FFFFFF')
             log.debug('Clicked Button is red, so the background color change to white')
@@ -193,7 +195,7 @@ class Game(Menubar):
             out: -
         '''
         logNameMethod = 'handleButtonClickLeft'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         c, r = self.getRealButtonPosition(event)
         valueCell = self.board1.getValueFromBoard(c, r)
         log.debug('Button were clicked in column {} and row {} and have the value {}'.format(c, r, valueCell))
@@ -244,7 +246,7 @@ class Game(Menubar):
             TODO explain th method
         '''
         logNameMethod = 'checkVictory'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         clickedCells = self.board1.getClickedFieldsAmount()
         log.debug('Number of clicked Cells so far {}'.format(clickedCells))
         if clickedCells == self.clicksUntilVictory:
@@ -262,17 +264,26 @@ class Game(Menubar):
             in: -
             out: -
         '''
-        print('Endgame')
+        logNameMethod = 'endGame'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('The game is over')
         for cellname in self.ButtonNameDict.keys():
             name1 = cellname.split(',')
             c = name1[0]
             r = name1[1]
-            # print(cellname, c, r)
             valueCell = self.board1.getValueFromBoard(int(c), int(r))
-            self.changeImageOfCell(valueCell, cellname)
+            log.debug('Cellname {}, column {}, Row {}, ValueCell {}. Next step is that each button will change the image if the valuecell is not 11'.format(cellname, c, r, valueCell))
+            if valueCell != 11:
+                self.changeImageOfCell(valueCell, cellname)
         self.configureEndGame(win, time)
     
     def configureEndGame(self, win, time):
+        '''
+            TODO write docstring
+        '''
+        logNameMethod = 'configureEndGame'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Create Endgame Window')
         root2 = Toplevel(self.master)
         myGUI = EndGame(root2, self.player, win, time)
         Grid.rowconfigure(root2, 0, weight=1)
@@ -288,42 +299,59 @@ class Game(Menubar):
             in: column (c), row (r)
             out: -
         '''
+        logNameMethod = 'openOtherCells'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('A cell with the value 0 were clicked. Next step is to get the cells around the button')
         openFieldList = self.board1.getAllOtherOpenFields(c, r, [])
         for cell in openFieldList:
             c = cell[0]
             r = cell[1]
             valueCell = self.board1.getValueFromBoard(c, r)
             cellname = str(c) + ',' + str(r)
-            self.changeImageOfCell(valueCell, cellname)
             self.board1.setValueFromBoard(c, r)
-            print(c, r, 'new Vallue while clicked', self.board1.getValueFromBoard(c, r))
-       
+            valueCell2 = self.board1.getValueFromBoard(c, r)
+            self.changeImageOfCell(valueCell, cellname)
+            log.debug('Cellname {}, column {}, Row {}, ValueCell {}, new valuecell {}'.format(cellname, c, r, valueCell, valueCell2))
+
     def changeImageOfCell(self, valueCell, cellname):
         '''
             do: Change the image of a cell with the Buttonname and unbind the click event
             in: valueCell, cellname
             out: -
         '''
+        logNameMethod = 'changeImageOfCell'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         if valueCell == 10:
+            log.debug('Clicked Button is a 10, so the image change to Bug') 
             self.ButtonNameDict[cellname].config(image=self.bug)
         elif valueCell == 8:
             self.ButtonNameDict[cellname].config(image=self.eight)
+            log.debug('Clicked Button is a 8, so the image change to 8') 
         elif valueCell == 7:
+            log.debug('Clicked Button is a 7, so the image change to 7') 
             self.ButtonNameDict[cellname].config(image=self.seven)
         elif valueCell == 6:
+            log.debug('Clicked Button is a 6, so the image change to 6') 
             self.ButtonNameDict[cellname].config(image=self.six)
         elif valueCell == 5:
+            log.debug('Clicked Button is a 5, so the image change to 5') 
             self.ButtonNameDict[cellname].config(image=self.five)
         elif valueCell == 4:
+            log.debug('Clicked Button is a 4, so the image change to 4') 
             self.ButtonNameDict[cellname].config(image=self.four)
         elif valueCell == 3:
+            log.debug('Clicked Button is a 3, so the image change to 3') 
             self.ButtonNameDict[cellname].config(image=self.three)
         elif valueCell == 2:
+            log.debug('Clicked Button is a 2, so the image change to 2') 
             self.ButtonNameDict[cellname].config(image=self.two)
         elif valueCell == 1:
+            log.debug('Clicked Button is a 1, so the image change to 1') 
             self.ButtonNameDict[cellname].config(image=self.one)
         elif valueCell == 0:
+            log.debug('Clicked Button is a 0, so the image change to 0') 
             self.ButtonNameDict[cellname].config(image=self.zero)
+        log.debug('Unbind clickevents for Clicked Button') 
         self.ButtonNameDict[cellname].unbind('<Button-1>')
         self.ButtonNameDict[cellname].unbind('<Button-3>')
 
