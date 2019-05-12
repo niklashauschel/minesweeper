@@ -12,6 +12,10 @@ class Menubar:
         It is the definition of the Menubar, which can be inherit by the GUI's later
     '''
     def __init__(self, master):
+        self.logNameClass = 'Menubar'
+        logNameMethod = '__init__'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup the Menubar class!')
         self.master = master
         self.creatMenuBar()
 
@@ -19,11 +23,14 @@ class Menubar:
         '''
             Create the standard MenuBar for all of the windows
         '''
+        logNameMethod = 'creatMenuBar'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Creates a menu bar template')
         self.menubar = Menu(self.master)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Help", command=self.helpUser)
         self.filemenu.add_separator()
-        self.filemenu.add_command(label="Exit", command=self.exitConfig)
+        self.filemenu.add_command(label="Exit", command=self.exitWindow)
         self.menubar.add_cascade(label="Menu", menu=self.filemenu)
         self.master.config(menu=self.menubar)
 
@@ -31,6 +38,9 @@ class Menubar:
         '''
             Creates a new window, where the rules of the game where the rules are described
         '''
+        logNameMethod = 'helpUser'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Creates a new window if the user needs help. Setup HelpUserWindow!')
         root2 = Toplevel(self.master)
         myGUI = HelpUserWindow(root2)
         Grid.rowconfigure(root2, 0, weight=1)
@@ -39,7 +49,10 @@ class Menubar:
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
         
-    def exitConfig(self):
+    def exitWindow(self):
+        logNameMethod = 'exitWindow'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Destory the window')
         self.master.destroy()
 
 
@@ -49,10 +62,11 @@ class HelpUserWindow(Menubar):
     '''
 
     def __init__(self, master):
+        self.logNameClass = 'HelpUserWindow'
+        logNameMethod = '__init__'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.master = master
         self.creatMenuBar()
-        debug('Test')
-
         self.label1 = Label(self.master, text="Find the Bug is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
@@ -63,7 +77,7 @@ class HelpUserWindow(Menubar):
         '''
         self.menubar = Menu(self.master)
         self.filemenu = Menu(self.menubar, tearoff=0)
-        self.filemenu.add_command(label="Exit", command=self.exitConfig)
+        self.filemenu.add_command(label="Exit", command=self.exitWindow)
         self.menubar.add_cascade(label="Menu", menu=self.filemenu)
         self.master.config(menu=self.menubar)
 
@@ -74,6 +88,9 @@ class EndGame(Menubar):
     '''
 
     def __init__(self, master, player, win, time):
+        self.logNameClass = 'EndGame'
+        logNameMethod = '__init__'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.master = master
         self.win = win
         self.player = player
@@ -95,6 +112,9 @@ class Configuration(Menubar):
     '''
 
     def __init__(self, master):
+        self.logNameClass = 'Configuration'
+        logNameMethod = '__init__'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.master = master
         self.v = IntVar()
        
@@ -122,12 +142,6 @@ class Configuration(Menubar):
         self.radiobutton3 = Radiobutton(self.master, text="Hard", variable=self.v, value=3)
         self.v.set(1)
 
-    def destroyMenu(self):
-        '''
-            Destroy the current window
-        '''
-        self.master.destroy()
-
     def createGame(self):
         player = self.textfield.get("1.0", "end")
         player = player.strip()
@@ -148,6 +162,9 @@ class Game(Menubar):
 
     def __init__(self, master, player, degree_of_difficulty):
         self.logNameClass = 'Game'
+        logNameMethod = '__init__'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup the Game window!')
         self.degree_of_difficulty = degree_of_difficulty
         self.master = master
         self.player = player
@@ -169,7 +186,11 @@ class Game(Menubar):
                 realR = r - 1
                 self.name = str(c) + "," + str(realR)
                 self.ButtonNameDict[self.name] = self.btn
+                log.debug('Button with column {} and row {} will be created with the click event. In the background it has the row {}'.format(c, realR, r))
+
         self.startTime = t.time()
+        log.debug('The time for the game has been started')
+        log.debug('Next step is that the class inherits everything from the inheriting class.')
         return super().__init__(master)
 
     def handleButtonClickRight(self, event):
@@ -361,6 +382,9 @@ class Game(Menubar):
             in: -
             out: -
         '''
+        logNameMethod = 'setUpImages'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup once all images for the game')
         self.white = PhotoImage(file="assets/white.png")
         self.bug = PhotoImage(file="assets/bug.png")
         self.search_bug = PhotoImage(file="assets/search_bug.png")
@@ -380,28 +404,36 @@ class Game(Menubar):
             in: click event
             out: position column, row
         '''
+        logNameMethod = 'getRealButtonPosition'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         gridDict = event.widget.grid_info()
         clickedRow = gridDict['row']
         clickedColumn = gridDict['column']
-        clickedRow = clickedRow - 1
-        return clickedColumn, clickedRow
+        clickedRowNew = clickedRow - 1
+        log.debug('Because of the first line, one must be subtracted in each one of the lines. row {} column {}, real row {} '.format(clickedRow, clickedColumn, clickedRowNew))
+        return clickedColumn, clickedRowNew
 
     def setGameFieldSize(self):
         '''
             Check the input degree_of_difficulty and get the playground size
         '''
+        logNameMethod = 'setGameFieldSize'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         if self.degree_of_difficulty == 1:
             self.column = 5
             self.row = 5
             self.mines = 4
+            log.debug('The player picked the easy degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
         elif self.degree_of_difficulty == 2:
             self.column = 9
             self.row = 7
             self.mines = 10
+            log.debug('The player picked the medium degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
         else:
             self.column = 18
             self.row = 10
             self.mines = 30
+            log.debug('The player picked the hard degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
         self.clicksUntilVictory = (self.column * self.row) - self.mines
         print('Clicks until victory', self.clicksUntilVictory)
 
@@ -409,15 +441,23 @@ class Game(Menubar):
         '''
             Create Board with module logic, need the column, row and the nuber of mines for the game
         '''
+        logNameMethod = 'createBoard'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Give the following information to the logic modul. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
         self.board1 = Board(self.column, self.row, self.mines, None)
+        # TODO Sollte Till machen, nicht ich oder?
         self.board1.createWarnFields()
-        print(self.board1.getBoard())
+
+        log.debug('\n{}'.format(self.board1.getBoard()))
 
     def setUpFrame(self):
         ''' 
             First setup the Frame and configure the grid
             Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
         '''
+        logNameMethod = 'setUpFrame'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup the postion of the buttons')
         self.frame = Frame(self.master)
         self.frame.grid(row=0, column=0, sticky=N+S+E+W)
         self.grid = Frame(self.frame)
@@ -428,23 +468,22 @@ class Game(Menubar):
     def createFirstLine(self):
         ''' 
             Create first line of the game field and configure the line of labels based on playing field width
-        '''
+        '''   
+        logNameMethod = 'createFirstLine'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+
         # create
-        minesNumber = str(self.mines) + " Mines"
+        log.debug('Creates the first line of the game with number of bugs, Welcome and player name')
+        minesNumber = str(self.mines) + " Bugs"
         self.time = Label(self.master, text=minesNumber)
         self.label1 = Label(self.frame, text="Welcome to Find the Bug")
         self.name = Label(self.frame, text=self.player)
 
         # configure
+        log.debug('Configure the first line')
         self.time.grid(row=0, column=0, sticky="NW", columnspan=self.column)
         self.label1.grid(row=0, column=0, sticky="N", columnspan=self.column)
         self.name.grid(row=0, column=0, sticky="NE", columnspan=self.column)
-
-    def destroyMenu(self):
-        '''
-            Destroy the current window
-        '''
-        self.master.destroy()
 
 
 def main():
@@ -455,7 +494,7 @@ def main():
     LOG_FILENAME = 'Debugfile.log'
     basicConfig(filename=LOG_FILENAME, level=DEBUG)
     debug('Start the game on:' + str(datetime.today()))
-
+    debug('Setup the configuration Window')
     root = Tk()
     config = Configuration(root)
     root.title("Find the Bug Configuration")
