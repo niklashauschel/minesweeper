@@ -1,9 +1,12 @@
 
 import random
 import numpy as np
-import logging
+from logging import *
+
+filename = 'logic'
 
 class Board():
+
     """
     creating and working an the board 
     tkinter need the totall different  position of colum and row
@@ -11,14 +14,18 @@ class Board():
     """
     TODO talk if creatwarnfileds have to call in init
     """
+    
+    
+
     def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
         """
-        input: rows and colums and bombs all numbers
+        in: rows and colums and bombs all numbers
         do: create a list with bombs and notboms fileds and shuffle them randomly
             then formate this list to an 2d array
         out: the 2d array with random bombs
         """
-        
+        self.logNameClass = 'Board'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.rows = rows
         self.colums = colums
         self.bombs = bombs
@@ -28,29 +35,40 @@ class Board():
                 self.board = [10]*self.bombs + notBombs*[0]  # 10 is standing for bombs
                 random.shuffle(self.board)
                 self.board = np.array(self.board, dtype=int).reshape(rows, colums)
+                log.debug("Board is created sucessful")
             else:
-                print("There are to many bombs")
+                log.error("There are to many bombs")
         else:
             self.board = board
+        log.debug("Board is set from outside")
 
     def getBoard(self):
         """
-        simple getter for board
+        getter for board
         """
+        logNameMethod = 'getBoard'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log.debug('getBoard call and Board looks like: \n {}'.format(self.board))
         return self.board        
 
     def getValueFromBoard(self, colum, row):
         """
         simple getter for special value on index
         """
+        logNameMethod = 'getValueFromBoard'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         try:
+            log.debug('value of return is {}'.format{self.board[row][colum]})
             return(self.board[row][colum])
         except IndexError:
-            print('IndexError')
+            log.error('IndexError')
     
     def getClickedFieldsAmount(self):
+        logNameMethod = 'getClieckedFieldsAmound'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 11)
         listOfCoordinates = list(zip(result[1], result[0]))
+        log.debug('value of return is {}'.format{len(listOfCoordinates)})
         return len(listOfCoordinates)
 
     def createWarnFields(self):
@@ -59,45 +77,53 @@ class Board():
         do: write on the filed with no bombs how much bombs are int the near
         output: the filed with everyfiled the number of bombs in the near
         """
+        logNameMethod = 'createWarnFields'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 10)
         listOfCoordinates = list(zip(result[1], result[0]))
-        for cord in listOfCoordinates:   # funktioniert
+        for cord in listOfCoordinates: 
             rowsOfBomb = cord[1]
             columsOfBomb = cord[0]
             for(rowsNeighbor, columsNeighbor) in self.getNeighbours(columsOfBomb, rowsOfBomb):
                 if(rowsNeighbor >= 0 and
-                    rowsNeighbor < self.rows and
-                        columsNeighbor >= 0 and columsNeighbor < self.colums):
-                            if(self.board[rowsNeighbor][columsNeighbor] != 10):
+                   rowsNeighbor < self.rows and
+                   columsNeighbor >= 0 and columsNeighbor < self.colums):
                                 self.board[rowsNeighbor][columsNeighbor] += 1
+        log.debug('Board after creating Warnfileds looks like: \n {}'.format(self.board))
+
 
     def setValueFromBoard(self, colum, row):
+        logNameMethod = 'setValueFromBoard'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
         self.board[row][colum] = 11
+        log.debug('value is setted as 11 that mean clicked')
+    
 
     def getNeighbours(self, colum, row):
         '''
         Free from minesweeper.py
         why a extra method?
         Because you need the Neighbours for a field  in morec then one Mthod
-        input: the colum and row from one field
+        in: the colum and row from one field
         do: calculate the neighbars
-        output: the neighbarsfrom one field
+        out: the neighbarsfrom one field
         '''
+        
         NEIGHBOURS = ((-1, -1), (-1,  0), (-1,  1),
                      (0, -1),            (0,  1),
                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighborRow, colum + neighborColum) for (neighborRow, neighborColum) in NEIGHBOURS)
 
     def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
-        
-        
         '''
-        input: an field with no bombs in the neighborhood and 
+        in: an field with no bombs in the neighborhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
         has to be null to beginning 
         do: search all fields around which have no bombs around and also the first field which have bombs around
-        output: all fields which should open in minesweeper, if you press a button on the filed
+        out: all fields which should open in minesweeper, if you press a button on the filed
         '''
+        logNameMethod = 'getAllOtherOpenFields'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
         logging.debug('rekursiv call witth colum:{} row:{}'.format(colum, row))
         openfields = _openfields
         if not openfields:
@@ -118,9 +144,51 @@ class Board():
                         columsNeighbor == colum + 1):
                         return openfields
 
-        def isBoardSovable(self):
-            """
-            TODO Check if one filed has more then 7 neighbours with bombs check off mirror axis
-            are they more not solvable in notsolvable fields folder
-            """
+    def checkAllNeighboursWhereBombs(self):
+        logNameMethod = 'checkAllNeighboursWhereBombs'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        self.createWarnFields()
+        test = np.where(self.board == 19)
+        if(len(test[0]) != 0 and len(test[1]) != 0):
+            log.debug('All Neighbours are bombs')
+            return True
+        else:
+            morethan10 = np.where(self.board > 10)
+            listOfCoordinates = list(zip(morethan10[0], morethan10[1]))
+            for cord in listOfCoordinates: 
+                rowsof10 = cord[0]
+                columsof10 = cord[1]
+                self.board[rowsof10][columsof10] = 10
+            log.debug('not all Neighbours are bombs')
+            return False
+
+    def isBoardSolvable(self):
+        """
+        TODO Check if one filed has more then 7 neighbours with bombs check off mirror axis
+        are they more not solvable in notsolvable fields folder
+        """
+        logNameMethod = 'isBoardSolvable'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        result = np.where(self.board == 8)
+        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs() or self.mirrorAxis()):
+            log.debug('it is not solvable, create new board')
+            self.__init__(self.colums, self.rows, self.bombs, None)
+        else:
+            # TODO logging it is solvable
+            log.debug('Allright it is solvable')
             pass
+
+    def mirrorAxis(self):
+        logNameMethod = 'mirrorAxis'
+        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log.debug('No MirrorAxis in Board')
+        return False
+                
+
+
+
+
+                
+                    
+
+            
