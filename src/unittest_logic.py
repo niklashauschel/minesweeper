@@ -1,3 +1,7 @@
+"""
+    @ user : abcd
+    @ date : 01.01.1970
+"""
 import logic as logic
 import unittest
 import numpy as np
@@ -39,7 +43,7 @@ class Testlogic(unittest.TestCase):
                               [0, 0]], dtype=int)
         test = logic.Board(2, 2, 1, testboard)
         
-        #  test.createWarnFields()
+        test.createWarnFields()
         HowTheBoardLooksLike = np.array([[10, 1],
                                          [1, 1]], dtype=int)
                                 
@@ -88,7 +92,6 @@ class Testlogic(unittest.TestCase):
                               [1, 2, 2, 1, 0],
                               [0, 1, 11, 1, 0]], dtype=int)
         getOpenFiledsAmountTestBoard = logic.Board(5, 5, 3, testboard)
-        getOpenFiledsAmountTestBoard.isBoardSolvable() 
         self.assertEqual(getOpenFiledsAmountTestBoard.getClickedFieldsAmount(), 4)
     
    

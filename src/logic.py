@@ -3,6 +3,7 @@ import random
 import numpy as np
 from logging import *
 
+
 filename = 'logic'
 
 class Board():
@@ -15,8 +16,6 @@ class Board():
     TODO talk if creatwarnfileds have to call in init
     """
     
-    
-
     def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
         """
         in: rows and colums and bombs all numbers
@@ -25,6 +24,7 @@ class Board():
         out: the 2d array with random bombs
         """
         self.logNameClass = 'Board'
+        logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.rows = rows
         self.colums = colums
@@ -58,7 +58,7 @@ class Board():
         logNameMethod = 'getValueFromBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         try:
-            log.debug('value of return is {}'.format{self.board[row][colum]})
+            log.debug('value of return is {}'.format(self.board[row][colum]))
             return(self.board[row][colum])
         except IndexError:
             log.error('IndexError')
@@ -68,7 +68,7 @@ class Board():
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 11)
         listOfCoordinates = list(zip(result[1], result[0]))
-        log.debug('value of return is {}'.format{len(listOfCoordinates)})
+        log.debug('value of return is {}'.format(len(listOfCoordinates)))
         return len(listOfCoordinates)
 
     def createWarnFields(self):
@@ -124,7 +124,7 @@ class Board():
         '''
         logNameMethod = 'getAllOtherOpenFields'
         log = getLogger(self.logNameClass + '.' + logNameMethod)
-        logging.debug('rekursiv call witth colum:{} row:{}'.format(colum, row))
+        log.debug('rekursiv call witth colum:{} row:{}'.format(colum, row))
         openfields = _openfields
         if not openfields:
             openfields.append((colum, row))
@@ -177,18 +177,41 @@ class Board():
             # TODO logging it is solvable
             log.debug('Allright it is solvable')
             pass
-
+'''
     def mirrorAxis(self):
         logNameMethod = 'mirrorAxis'
         log = getLogger(self.logNameClass + '.' + logNameMethod)
+        halfcolum = int(np.ceil(self.colums/2)) - 1
+        halfrow = int(np.ceil(self.rows/2)) - 1
+        
+        for i between xrange(self.rows-1):
+            for j in xrange(halfcolum):
+                print(i)
+                if(self.board[i][halfcolum - j - 1] == self.board[i][halfcolum + j] and
+                   i == halfcolum):
+                    return True
+                else:
+                    i = self.rows
+        for i in self.colums:
+            for j in halfrow:
+                if(self.board[halfrow - j - 1][i] == self.board[halfrow + j][i] and
+                   i == halfrow):
+                    return True
+                else:
+                    i = self.colums
+        return False
+
+
+
         log.debug('No MirrorAxis in Board')
         return False
                 
 
 
 
-
-                
+board = Board(4, 4, 0, None)
+board.mirrorAxis()
+'''                
                     
 
             
