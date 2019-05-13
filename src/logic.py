@@ -170,30 +170,30 @@ class Board():
         logNameMethod = 'isBoardSolvable'
         log = getLogger(self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 8)
-        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs() or self.mirrorAxis()):
+        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):  # or self.mirrorAxis()
             log.debug('it is not solvable, create new board')
             self.__init__(self.colums, self.rows, self.bombs, None)
         else:
             # TODO logging it is solvable
             log.debug('Allright it is solvable')
             pass
-'''
+
     def mirrorAxis(self):
         logNameMethod = 'mirrorAxis'
         log = getLogger(self.logNameClass + '.' + logNameMethod)
         halfcolum = int(np.ceil(self.colums/2)) - 1
         halfrow = int(np.ceil(self.rows/2)) - 1
         
-        for i between xrange(self.rows-1):
-            for j in xrange(halfcolum):
+        for i in range(self.rows-1):
+            for j in range(halfcolum):
                 print(i)
                 if(self.board[i][halfcolum - j - 1] == self.board[i][halfcolum + j] and
                    i == halfcolum):
                     return True
                 else:
                     i = self.rows
-        for i in self.colums:
-            for j in halfrow:
+        for i in range(self.colums):
+            for j in range(halfrow):
                 if(self.board[halfrow - j - 1][i] == self.board[halfrow + j][i] and
                    i == halfrow):
                     return True
@@ -206,12 +206,6 @@ class Board():
         log.debug('No MirrorAxis in Board')
         return False
                 
-
-
-
-board = Board(4, 4, 0, None)
-board.mirrorAxis()
-'''                
                     
 
             
