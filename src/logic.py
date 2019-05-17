@@ -118,7 +118,7 @@ class Board():
                       (1, -1), (1,  0),   (1,  1))
         return ((row + neighborRow, colum + neighborColum) for (neighborRow, neighborColum) in NEIGHBOURS)
 
-    def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
+    def getAllOtherOpenFields(self, colum, row, _openfields):
         '''
         in: an field with no bombs in the neighborhood and 
         openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
@@ -186,7 +186,8 @@ class Board():
         logNameMethod = 'isBoardSolvable'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 8)
-        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):  # or self.mirrorAxis()
+        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):  
+            # or self.mirrorAxis()
             log.debug('it is not solvable, create new board')
             self.__init__(self.colums, self.rows, self.bombs, None)
         else:

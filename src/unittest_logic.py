@@ -54,7 +54,8 @@ class Testlogic(unittest.TestCase):
     
     def test_GetAllOtherOpenFields(self):
         ''' 
-        use these special testcase because off, it destroy the programm by the first implementation from GetAllOtherFields
+        use these special testcase because off, it destroy the programm 
+            by the first implementation from GetAllOtherFields
         in: the fields in on array off tubles that should, be open from GetAllOtherOpenFileds,
              the fields in on array off tubles that  open from GetAllOtherOpenFileds,
         do:  prepare the test and compare the inputs
