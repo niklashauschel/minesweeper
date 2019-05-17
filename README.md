@@ -18,6 +18,10 @@ column row
     out:
     TODO:
 '''
+###Numbers
+0-9 stands for the bombs around
+10 stands for a bomb
+11 stands for a clicked field
 
 ### Logging 
 

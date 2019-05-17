@@ -1,15 +1,18 @@
+# !/usr/bin/python
 """
-    @ user : abcd
-    @ date : 01.01.1970
+    @ author : Till Fetzer
+    @ e-mail : till.fetzer@googlemail.com
+    @ date : 17.05.2019
 """
-import logic as logic
-import unittest
+import unittest  # standart liberies
 import numpy as np
 from unittest.mock import patch
 import logging
+
+import logic as logic  # local source
+
 LOG_FILENAME = 'Debugfile_tests.log'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
-
 
 
 class Testlogic(unittest.TestCase):
@@ -72,7 +75,7 @@ class Testlogic(unittest.TestCase):
 
     def test_GetAllOtherOpenFieldsNotReturnNone(self):
         """
-        in: be output off all fileds with method GetAllOtherOpenFields
+        in: the output off all fileds with method GetAllOtherOpenFields
         do: Check off if None back, this is because off this is the case if 
         the GetAllOpenFields do not come to an return 
         out:  if test run good or with an error
@@ -86,6 +89,11 @@ class Testlogic(unittest.TestCase):
                 self.assertIsNotNone(listOfOpentest2)
 
     def test_getOpenFiledsAmount(self):
+        """
+        in: the output of getOpenFieldsAmount with the given field
+        do: Check if the output and the self calculated value are the same
+        out: 
+        """
         testboard = np.array([[1, 11, 0, 1, 1],  
                               [10, 2, 1, 1, 10],
                               [2, 11, 1, 11, 1],

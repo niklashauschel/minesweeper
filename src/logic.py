@@ -1,10 +1,16 @@
-
-import random
+# !/usr/bin/python
+"""
+    @ author : Till Fetzer
+    @ e-mail : till.fetzer@googlemail.com
+    @ date : 17.05.2019
+"""
+import random  # stantard liberies
 import numpy as np
 from logging import *
 
 
 filename = 'logic'
+
 
 class Board():
 
@@ -47,7 +53,7 @@ class Board():
         getter for board
         """
         logNameMethod = 'getBoard'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         log.debug('getBoard call and Board looks like: \n {}'.format(self.board))
         return self.board        
 
@@ -91,13 +97,11 @@ class Board():
                                 self.board[rowsNeighbor][columsNeighbor] += 1
         log.debug('Board after creating Warnfileds looks like: \n {}'.format(self.board))
 
-
     def setValueFromBoard(self, colum, row):
         logNameMethod = 'setValueFromBoard'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.board[row][colum] = 11
         log.debug('value is setted as 11 that mean clicked')
-    
 
     def getNeighbours(self, colum, row):
         '''
@@ -108,10 +112,10 @@ class Board():
         do: calculate the neighbars
         out: the neighbarsfrom one field
         '''
-        
+
         NEIGHBOURS = ((-1, -1), (-1,  0), (-1,  1),
-                     (0, -1),            (0,  1),
-                     (1, -1), (1,  0),   (1,  1))
+                      (0, -1),            (0,  1),
+                      (1, -1), (1,  0),   (1,  1))
         return ((row + neighborRow, colum + neighborColum) for (neighborRow, neighborColum) in NEIGHBOURS)
 
     def getAllOtherOpenFields(self, colum, row, _openfields):  # This funktion need really on test case, this not a easy testcase
@@ -123,7 +127,7 @@ class Board():
         out: all fields which should open in minesweeper, if you press a button on the filed
         '''
         logNameMethod = 'getAllOtherOpenFields'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         log.debug('rekursiv call witth colum:{} row:{}'.format(colum, row))
         openfields = _openfields
         if not openfields:
@@ -145,10 +149,17 @@ class Board():
                         return openfields
 
     def checkAllNeighboursWhereBombs(self):
+        """
+        One off the methods there are only needed for checking if it is logical solvable
+        in: the board after the method create warnfields
+        do: Check if a bomb has only bombs as neighbour if not 
+            but all bombs off value off bomb 
+        out: True or False
+        """
         logNameMethod = 'checkAllNeighboursWhereBombs'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.createWarnFields()
-        test = np.where(self.board == 19)
+        test = np.where(self.board == 18)
         if(len(test[0]) != 0 and len(test[1]) != 0):
             log.debug('All Neighbours are bombs')
             return True
@@ -164,23 +175,37 @@ class Board():
 
     def isBoardSolvable(self):
         """
-        TODO Check if one filed has more then 7 neighbours with bombs check off mirror axis
-        are they more not solvable in notsolvable fields folder
+        One off the methods there are only needed for checking if it is logical solvable
+        without it you can easily replace isBoardSolvable with createwarnfield in ooGUI.py 
+        and attach on  this method  and self.board[rowsneighbor][columsneighbor] != 10 in the ifclouse
+        in: the board after init and the output of checkAllNeighboursWhereBombs and if it work mirrorAxis
+        do: check if it is logical solvable 
+        out: create new init for not solvable or do nothing for solvable
+        TODO: because logical solvable is not needed it is not check if it works, when it is not solvable in logical way
         """
         logNameMethod = 'isBoardSolvable'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 8)
         if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):  # or self.mirrorAxis()
             log.debug('it is not solvable, create new board')
             self.__init__(self.colums, self.rows, self.bombs, None)
         else:
-            # TODO logging it is solvable
+            
             log.debug('Allright it is solvable')
             pass
 
     def mirrorAxis(self):
+        """
+        One off the methods there are only needed for checking if it is logical solvable
+        in: the board off init
+        do: check if there are any mirrorAxis that make the game in most off the cases unsolvable in logcial way
+        examples off logical unsolvable fileds are in the folder notsolvable fields
+        out: if it has mirrorAxis or not
+        TODO: it is not tested and implement in the project, because this not part off the project needs
+              you have it seen only as idee
+        """
         logNameMethod = 'mirrorAxis'
-        log = getLogger(self.logNameClass + '.' + logNameMethod)
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         halfcolum = int(np.ceil(self.colums/2)) - 1
         halfrow = int(np.ceil(self.rows/2)) - 1
         
@@ -199,10 +224,6 @@ class Board():
                     return True
                 else:
                     i = self.colums
-        return False
-
-
-
         log.debug('No MirrorAxis in Board')
         return False
                 
