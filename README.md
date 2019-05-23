@@ -1,13 +1,13 @@
 # Python_Minesweeper
 
-##How to start game
+## How to start game
 To start make you have to run ooGUI.py.
 Logic is only a passiv file
 
-##How to run test
+## How to run test
 To run test you have only run unittest_logic.py
 
-##What is the different with rows and colums
+## What is the different with rows and colums
  tkinter need the totall different  position of colum and row then pn.array.
  In np.array you need first rows then columns. In tkinter first columns then rows.
 
@@ -22,12 +22,16 @@ However, I would limit the line length to 120 characters from convenience (defau
 ### Comments
 
 '''
+
     in:
+
     do:
+
     out:
+
     TODO:
 '''
-###Numbers
+### Numbers
 0-9 stands for the bombs around
 10 stands for a bomb
 11 stands for a clicked field
@@ -41,7 +45,9 @@ https://docs.python.org/3/howto/logging-cookbook.html
 # TODO 
 
 proptery
+
 check if the field is solvable
+
 more tests
 
 
