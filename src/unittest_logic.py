@@ -17,17 +17,17 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 class Testlogic(unittest.TestCase):
     """
-    in: -
-    do: test the definit testcases
-    out: in terminal if testcase run correctly or not
+        in: -
+        do: test the definit testcases
+        out: in terminal if testcase run correctly or not
     """
 
     def test_GetValueFromBoard(self):
         """
-        in: value from GetValueFromBoard, self calulate value
-        do: combare if the Method GetValueFromBoard
-        with a  the value from that is on the board itself
-        out: if test run good or with an error
+            in: value from GetValueFromBoard, self calulate value
+            do: combare if the Method GetValueFromBoard
+            with a  the value from that is on the board itself
+            out: if test run good or with an error
         """
         testboard = np.array([[2, 0],
                              [0, 0]], dtype=int)
@@ -36,10 +36,10 @@ class Testlogic(unittest.TestCase):
 
     def test_CreateWarnField(self):
         """
-        in:  self calculate board how have to look like the board after createwarnfileds,
-            the board after the method CreateWarnfileds
-        do:  Prepare for test and combare the inputs
-        out:  if test run good or with an error
+            in:  self calculate board how have to look like the board after createwarnfileds,
+                the board after the method CreateWarnfileds
+            do:  Prepare for test and combare the inputs
+            out:  if test run good or with an error
         """
         testboard = np.array([[10, 0],
                               [0, 0]], dtype=int)
@@ -51,12 +51,12 @@ class Testlogic(unittest.TestCase):
 
     def test_GetAllOtherOpenFields(self):
         '''
-        use these special testcase because off, it destroy the programm
-            by the first implementation from GetAllOtherFields
-        in: the fields in on array off tubles that should, be open from GetAllOtherOpenFileds,
-             the fields in on array off tubles that  open from GetAllOtherOpenFileds,
-        do:  prepare the test and compare the inputs
-        out:  if test run good or with an error
+            use these special testcase because off, it destroy the programm
+                by the first implementation from GetAllOtherFields
+            in: the fields in on array off tubles that should, be open from GetAllOtherOpenFileds,
+                 the fields in on array off tubles that  open from GetAllOtherOpenFileds,
+            do:  prepare the test and compare the inputs
+            out:  if test run good or with an error
         '''
         testboard = np.array([[1, 1, 0, 1, 1],
                               [10, 2, 1, 1, 10],
@@ -72,10 +72,10 @@ class Testlogic(unittest.TestCase):
 
     def test_GetAllOtherOpenFieldsNotReturnNone(self):
         """
-        in: the output off all fileds with method GetAllOtherOpenFields
-        do: Check off if None back, this is because off this is the case if
-        the GetAllOpenFields do not come to an return
-        out:  if test run good or with an error
+            in: the output off all fileds with method GetAllOtherOpenFields
+            do: Check off if None back, this is because off this is the case if
+                the GetAllOpenFields do not come to an return
+            out:  if test run good or with an error
         """
 
         test2 = logic.Board(10, 10, 1, None)
@@ -87,9 +87,9 @@ class Testlogic(unittest.TestCase):
 
     def test_getOpenFiledsAmount(self):
         """
-        in: the output of getOpenFieldsAmount with the given field
-        do: Check if the output and the self calculated value are the same
-        out: if test run good or with an error
+            in: the output of getOpenFieldsAmount with the given field
+            do: Check if the output and the self calculated value are the same
+            out: if test run good or with an error
         """
         testboard = np.array([[1, 11, 0, 1, 1],
                               [10, 2, 1, 1, 10],
