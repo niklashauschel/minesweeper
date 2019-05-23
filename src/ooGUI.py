@@ -1,3 +1,10 @@
+# !/usr/bin/python
+"""
+    @ user : Niklas Hauschel
+    @ e-mail: niklas.hauschel@web.de
+    @ date : 22.06.2019
+"""
+
 from tkinter import *
 from logic import Board
 from logging import *
@@ -7,11 +14,22 @@ from datetime import *
 filename = 'ooGUI'
 
 
+# Source for column row in tkinter https://diyodemag.com/education/secret_code_tkinter
+
+# TODO --> check if name is null
+# TODO --> erster Klick keine mine!
+
+
 class Menubar:
     '''
         It is the definition of the Menubar, which can be inherit by the GUI's later
     '''
     def __init__(self, master):
+        '''
+            in: master frame
+            do: Creates the menu for all of the windows
+            out: -
+        '''
         self.logNameClass = 'Menubar'
         logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -21,7 +39,10 @@ class Menubar:
 
     def creatMenuBar(self):
         '''
-            Create the standard MenuBar for all of the windows
+            in:
+            do: Create the standard MenuBar for all of the windows
+            out:
+            todo: property
         '''
         logNameMethod = 'creatMenuBar'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -36,7 +57,9 @@ class Menubar:
 
     def helpUser(self):
         '''
-            Creates a new window, where the rules of the game where the rules are described
+            in: -
+            do: Creates a new window, where the rules of the game where the rules are described
+            out: -
         '''
         logNameMethod = 'helpUser'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -48,8 +71,13 @@ class Menubar:
         root2.title("Help with Find the Bug")
         root2.update()
         root2.minsize(root2.winfo_width(), root2.winfo_height())
-        
+
     def exitWindow(self):
+        '''
+            in: -
+            do: Close the window
+            out: -
+        '''
         logNameMethod = 'exitWindow'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         log.debug('Destory the window')
@@ -62,19 +90,39 @@ class HelpUserWindow(Menubar):
     '''
 
     def __init__(self, master):
+        '''
+            in: master frame
+            do: Create the window for the information about the game
+            out: -
+            todo: property
+        '''
         self.logNameClass = 'HelpUserWindow'
         logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup the {} Window'.format(self.setLoggerClass))
         self.master = master
         self.creatMenuBar()
-        self.label1 = Label(self.master, text="Find the Bug is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden \"mines\" or bombs without detonating any of them, with help from clues about the number of neighboring mines in each field. The game originates from the 1960s, and has been written for many computing platforms in use today. It has many variations and offshoots.", wraplength=400, justify='left')
+        self.label1 = Label(self.master,
+                            text="Find the Bug is a single-player puzzle video game. The objective " +
+                            "of the game is to clear a rectangular board containing hidden \"mines\" " +
+                            "or bombs without detonating any of them, with help from clues " +
+                            "about the number of neighboring mines in each field. The game " +
+                            "originates from the 1960s, and has been written for many " +
+                            "computing platforms in use today. It has many variations and offshoots.",
+                            wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
-  
+
     def creatMenuBar(self):
         '''
-            Overwrites the inherited method, so the windows, has another Menubar  
+            in: -
+            do: Overwrites the inherited method, so the windows, has another Menubar
+            out:
+            todo: property
         '''
+        logNameMethod = 'creatMenuBar'
+        log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Overwrite inherited method, which changes the Menubar in the current window')
         self.menubar = Menu(self.master)
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Exit", command=self.exitWindow)
@@ -88,19 +136,26 @@ class EndGame(Menubar):
     '''
 
     def __init__(self, master, player, win, time):
+        '''
+            in: master frame, player name, win True or False, time
+            do: create the window at the end of the game
+            out: -
+            todo: property
+        '''
         self.logNameClass = 'EndGame'
         logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
+        log.debug('Setup the window {} '.format(self.logNameClass))
         self.master = master
         self.win = win
         self.player = player
         self.time = time
         if self.win is False:
             showText = 'Sorry ' + self.player + ' you have lost the game.'
+            log.debug('The player {} have lost the game'.format(self.player))
         else:
-            showText = 'Nice ' + self.player + ' you have win the game. Your time was: ' + str(self.time) + ' seconds!'
-
-        print(showText, self.player)
+            showText = 'Nice ' + self.player + ' you have won the game. Your time was: ' + str(self.time) + ' seconds!'
+            log.debug('The The player {} have won the game in {} seconds'.format(self.player, str(self.time)))
         self.label1 = Label(self.master, text=showText, wraplength=400, justify='left')
         self.label1.grid()
         return super().__init__(master)
@@ -112,12 +167,18 @@ class Configuration(Menubar):
     '''
 
     def __init__(self, master):
+        '''
+            in: master frame
+            do: create the configruation window
+            out: -
+            todo: property
+        '''
         self.logNameClass = 'Configuration'
         logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         self.master = master
         self.v = IntVar()
-       
+
         self.label1 = Label(self.master, text='Enter your Name')
         self.textfield = Text(self.master, width=15, height=3)
         self.createRadioButtons()
@@ -135,7 +196,9 @@ class Configuration(Menubar):
 
     def createRadioButtons(self):
         '''
-            Create the Radiobuttons and set easy as the dafault value
+            in: -
+            do: Create the Radiobuttons and set easy as the dafault value
+            out: -
         '''
         self.radiobutton1 = Radiobutton(self.master, text="Easy", variable=self.v, value=1)
         self.radiobutton2 = Radiobutton(self.master, text="Medium", variable=self.v, value=2)
@@ -143,6 +206,11 @@ class Configuration(Menubar):
         self.v.set(1)
 
     def createGame(self):
+        '''
+            in: -
+            do: configure the game window
+            out: -
+        '''
         player = self.textfield.get("1.0", "end")
         player = player.strip()
         degree_of_difficulty = self.v.get()
@@ -161,6 +229,12 @@ class Game(Menubar):
     '''
 
     def __init__(self, master, player, degree_of_difficulty):
+        '''
+            in: master frame, player name, degree_of_difficulty
+            do: create the game window
+            out: -
+            todo: property
+        '''
         self.logNameClass = 'Game'
         logNameMethod = '__init__'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -175,6 +249,8 @@ class Game(Menubar):
 
         self.setUpImages()
         self.ButtonNameDict = {}
+
+        # loop which creates the window
         for c in range(self.column):
             for r in range(1, self.row+1):
                 self.btn = Button(self.frame, image=self.white, bg='#FFFFFF')
@@ -186,7 +262,9 @@ class Game(Menubar):
                 realR = r - 1
                 self.name = str(c) + "," + str(realR)
                 self.ButtonNameDict[self.name] = self.btn
-                log.debug('Button with column {} and row {} will be created with the click event. In the background it has the row {}'.format(c, realR, r))
+                log.debug("Button with column {} and row {} will be created " +
+                          "with the click event. In the background it has the row {}"
+                          .format(c, realR, r))
 
         self.startTime = t.time()
         log.debug('The time for the game has been started')
@@ -195,9 +273,9 @@ class Game(Menubar):
 
     def handleButtonClickRight(self, event):
         '''
-            Handle the right click on a button. Search Bug image for the first click on a button.
-            The next change it back to the white image.
             in: click event
+            do: Handle the right click on a button. Search Bug image for the first click on a button.
+            The next change it back to the white image.
             out: -
         '''
         logNameMethod = 'handleButtonClickRight'
@@ -208,11 +286,11 @@ class Game(Menubar):
         else:
             event.widget.config(image=self.search_bug, bg='#FF0000')
             log.debug('Clicked Button is white, so the background color change to red')
- 
+
     def handleButtonClickLeft(self, event):
         '''
-            Handle the left click on a button
             in: click event
+            do: Handle the left click on a button
             out: -
         '''
         logNameMethod = 'handleButtonClickLeft'
@@ -222,41 +300,43 @@ class Game(Menubar):
         log.debug('Button were clicked in column {} and row {} and have the value {}'.format(c, r, valueCell))
         if event.widget['bg'] == '#FF0000':
             event.widget.config(bg='#FFFFFF')
-            log.debug('Clicked Button is red and so the background color change to white') 
+            log.debug('Clicked Button is red and so the background color change to white')
         if valueCell == 10:
             event.widget.config(image=self.bug)
-            log.debug('Clicked Button is a bug, so the image change to the bug. Next step is that the game is lost') 
+            log.debug('Clicked Button is a bug, so the image change to the bug. Next step is that the game is lost')
             self.endGame(False, None)
         elif valueCell == 8:
-            log.debug('Clicked Button is a 8, so the image change to 8') 
+            log.debug('Clicked Button is a 8, so the image change to 8')
             event.widget.config(image=self.eight)
         elif valueCell == 7:
-            log.debug('Clicked Button is a 7, so the image change to 7') 
+            log.debug('Clicked Button is a 7, so the image change to 7')
             event.widget.config(image=self.seven)
         elif valueCell == 6:
-            log.debug('Clicked Button is a 6, so the image change to 6') 
+            log.debug('Clicked Button is a 6, so the image change to 6')
             event.widget.config(image=self.six)
         elif valueCell == 5:
-            log.debug('Clicked Button is a 5, so the image change to 5') 
+            log.debug('Clicked Button is a 5, so the image change to 5')
             event.widget.config(image=self.five)
         elif valueCell == 4:
-            log.debug('Clicked Button is a 4, so the image change to 4') 
+            log.debug('Clicked Button is a 4, so the image change to 4')
             event.widget.config(image=self.four)
         elif valueCell == 3:
-            log.debug('Clicked Button is a 3, so the image change to 3') 
+            log.debug('Clicked Button is a 3, so the image change to 3')
             event.widget.config(image=self.three)
         elif valueCell == 2:
-            log.debug('Clicked Button is a 2, so the image change to 2') 
+            log.debug('Clicked Button is a 2, so the image change to 2')
             event.widget.config(image=self.two)
         elif valueCell == 1:
-            log.debug('Clicked Button is a 1, so the image change to 1') 
+            log.debug('Clicked Button is a 1, so the image change to 1')
             event.widget.config(image=self.one)
         elif valueCell == 0:
-            log.debug('Clicked Button is a 0, so the image change to 0. Next step is that other cells around the button will automatically clicked') 
+            log.debug('Clicked Button is a 0, so the image change to 0.' +
+                      'Next step is that other cells around the button will automatically clicked')
             self.openOtherCells(event, c, r)
             event.widget.config(image=self.zero)
         self.board1.setValueFromBoard(c, r)
-        log.debug('The Button gets a new number 11 in the logic in column {} and row {}. The Button will be unbind from the click event'.format(c, r))
+        log.debug('The Button gets a new number 11 in the logic in column {} and row {}. ' +
+                  'The Button will be unbind from the click event'.format(c, r))
         event.widget.unbind('<Button-1>')
         event.widget.unbind('<Button-3>')
         log.debug('Current Gamefield after a click on a field\n{}'.format(self.board1.getBoard()))
@@ -264,7 +344,13 @@ class Game(Menubar):
 
     def checkVictory(self):
         '''
-            TODO explain th method
+            in: -
+            do: Check if the game is over. At the beginning there are unclicked buttons(the product of column and row).
+                For every new click the game check if there are only the same number of unclicked buttons as the
+                number of mines.
+            out: -
+            in: click event
+            todo: property
         '''
         logNameMethod = 'checkVictory'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -280,9 +366,8 @@ class Game(Menubar):
 
     def endGame(self, win, time):
         '''
-            The player clicked on a mine
-            do: Open all Buttons of the field
-            in: -
+            in: win True or False, time
+            do: The player clicked on a mine. Open all Buttons of the field
             out: -
         '''
         logNameMethod = 'endGame'
@@ -293,14 +378,17 @@ class Game(Menubar):
             c = name1[0]
             r = name1[1]
             valueCell = self.board1.getValueFromBoard(int(c), int(r))
-            log.debug('Cellname {}, column {}, Row {}, ValueCell {}. Next step is that each button will change the image if the valuecell is not 11'.format(cellname, c, r, valueCell))
+            log.debug('Cellname {}, column {}, Row {}, ValueCell {}. Next step is that each button will change ' +
+                      'the image if the valuecell is not 11'.format(cellname, c, r, valueCell))
             if valueCell != 11:
                 self.changeImageOfCell(valueCell, cellname)
         self.configureEndGame(win, time)
-    
+
     def configureEndGame(self, win, time):
         '''
-            TODO write docstring
+            in: win True or False, time
+            do: configure the endgame window
+            out: -
         '''
         logNameMethod = 'configureEndGame'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -315,8 +403,8 @@ class Game(Menubar):
 
     def openOtherCells(self, event, c, r):
         '''
-            Open all cell around the clicked zero
-            do: Open a method from the logic and get a list. The List are the cells which should be programmly clicked
+            do: Open all cell around the clicked zero. Open a method from the logic and get a list.
+                The List are the cells which should be programmly clicked
             in: column (c), row (r)
             out: -
         '''
@@ -332,54 +420,55 @@ class Game(Menubar):
             self.board1.setValueFromBoard(c, r)
             valueCell2 = self.board1.getValueFromBoard(c, r)
             self.changeImageOfCell(valueCell, cellname)
-            log.debug('Cellname {}, column {}, Row {}, ValueCell {}, new valuecell {}'.format(cellname, c, r, valueCell, valueCell2))
+            log.debug('Cellname {}, column {}, Row {}, ValueCell {}, new valuecell {}'
+                      .format(cellname, c, r, valueCell, valueCell2))
 
     def changeImageOfCell(self, valueCell, cellname):
         '''
-            do: Change the image of a cell with the Buttonname and unbind the click event
             in: valueCell, cellname
+            do: Change the image of a cell with the Buttonname and unbind the click event
             out: -
         '''
         logNameMethod = 'changeImageOfCell'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         if valueCell == 10:
-            log.debug('Clicked Button is a 10, so the image change to Bug') 
+            log.debug('Clicked Button is a 10, so the image change to Bug')
             self.ButtonNameDict[cellname].config(image=self.bug)
         elif valueCell == 8:
             self.ButtonNameDict[cellname].config(image=self.eight)
-            log.debug('Clicked Button is a 8, so the image change to 8') 
+            log.debug('Clicked Button is a 8, so the image change to 8')
         elif valueCell == 7:
-            log.debug('Clicked Button is a 7, so the image change to 7') 
+            log.debug('Clicked Button is a 7, so the image change to 7')
             self.ButtonNameDict[cellname].config(image=self.seven)
         elif valueCell == 6:
-            log.debug('Clicked Button is a 6, so the image change to 6') 
+            log.debug('Clicked Button is a 6, so the image change to 6')
             self.ButtonNameDict[cellname].config(image=self.six)
         elif valueCell == 5:
-            log.debug('Clicked Button is a 5, so the image change to 5') 
+            log.debug('Clicked Button is a 5, so the image change to 5')
             self.ButtonNameDict[cellname].config(image=self.five)
         elif valueCell == 4:
-            log.debug('Clicked Button is a 4, so the image change to 4') 
+            log.debug('Clicked Button is a 4, so the image change to 4')
             self.ButtonNameDict[cellname].config(image=self.four)
         elif valueCell == 3:
-            log.debug('Clicked Button is a 3, so the image change to 3') 
+            log.debug('Clicked Button is a 3, so the image change to 3')
             self.ButtonNameDict[cellname].config(image=self.three)
         elif valueCell == 2:
-            log.debug('Clicked Button is a 2, so the image change to 2') 
+            log.debug('Clicked Button is a 2, so the image change to 2')
             self.ButtonNameDict[cellname].config(image=self.two)
         elif valueCell == 1:
-            log.debug('Clicked Button is a 1, so the image change to 1') 
+            log.debug('Clicked Button is a 1, so the image change to 1')
             self.ButtonNameDict[cellname].config(image=self.one)
         elif valueCell == 0:
-            log.debug('Clicked Button is a 0, so the image change to 0') 
+            log.debug('Clicked Button is a 0, so the image change to 0')
             self.ButtonNameDict[cellname].config(image=self.zero)
-        log.debug('Unbind clickevents for Clicked Button') 
+        log.debug('Unbind clickevents for Clicked Button')
         self.ButtonNameDict[cellname].unbind('<Button-1>')
         self.ButtonNameDict[cellname].unbind('<Button-3>')
 
     def setUpImages(self):
         '''
-            The method set up all images for the game
             in: -
+            do: The method set up all images for the game
             out: -
         '''
         logNameMethod = 'setUpImages'
@@ -400,8 +489,8 @@ class Game(Menubar):
 
     def getRealButtonPosition(self, event):
         '''
-            Calculate the real position of the Button, because on row is used for the Game information
             in: click event
+            do: Calculate the real position of the Button, because on row is used for the Game information
             out: position column, row
         '''
         logNameMethod = 'getRealButtonPosition'
@@ -410,12 +499,16 @@ class Game(Menubar):
         clickedRow = gridDict['row']
         clickedColumn = gridDict['column']
         clickedRowNew = clickedRow - 1
-        log.debug('Because of the first line, one must be subtracted in each one of the lines. row {} column {}, real row {} '.format(clickedRow, clickedColumn, clickedRowNew))
+        log.debug('Because of the first line, one must be subtracted in each one of the lines. ' +
+                  'row {} column {}, real row {} '.format(clickedRow, clickedColumn, clickedRowNew))
         return clickedColumn, clickedRowNew
 
     def setGameFieldSize(self):
         '''
-            Check the input degree_of_difficulty and get the playground size
+            in: -
+            do: Check the input degree_of_difficulty and get the playground size
+            out:
+            todo: proptery
         '''
         logNameMethod = 'setGameFieldSize'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -423,36 +516,45 @@ class Game(Menubar):
             self.column = 5
             self.row = 5
             self.mines = 4
-            log.debug('The player picked the easy degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
+            log.debug('The player picked the easy degree. So the Game has {} columns, {} rows and {} mines'
+                      .format(self.column, self.row, self.mines))
         elif self.degree_of_difficulty == 2:
             self.column = 9
             self.row = 7
             self.mines = 10
-            log.debug('The player picked the medium degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
+            log.debug('The player picked the medium degree. So the Game has {} columns, {} rows and {} mines'
+                      .format(self.column, self.row, self.mines))
         else:
             self.column = 18
             self.row = 10
             self.mines = 30
-            log.debug('The player picked the hard degree. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
+            log.debug('The player picked the hard degree. So the Game has {} columns, {} rows and {} mines'
+                      .format(self.column, self.row, self.mines))
         self.clicksUntilVictory = (self.column * self.row) - self.mines
         print('Clicks until victory', self.clicksUntilVictory)
 
     def createBoard(self):
         '''
-            Create Board with module logic, need the column, row and the nuber of mines for the game
+            in: -
+            do: Create Board with module logic, need the column, row and the nuber of mines for the game
+            out: -
+            todo: property
         '''
         logNameMethod = 'createBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
-        log.debug('Give the following information to the logic modul. So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
+        log.debug('Give the following information to the logic modul. ' +
+                  'So the Game has {} columns, {} rows and {} mines'.format(self.column, self.row, self.mines))
         self.board1 = Board(self.column, self.row, self.mines, None)
-        # TODO Sollte Till machen, nicht ich oder?
-        self.board1.createWarnFields()
+        self.board1.isBoardSolvable()
 
         log.debug('\n{}'.format(self.board1.getBoard()))
 
     def setUpFrame(self):
-        ''' 
-            First setup the Frame and configure the grid
+        '''
+            in: -
+            do: First setup the Frame and configure the grid
+            out: -
+            todo: property
             Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
         '''
         logNameMethod = 'setUpFrame'
@@ -466,9 +568,12 @@ class Game(Menubar):
         Grid.columnconfigure(self.frame, 0, weight=1)
 
     def createFirstLine(self):
-        ''' 
-            Create first line of the game field and configure the line of labels based on playing field width
-        '''   
+        '''
+            in: -
+            do: Create first line of the game field and configure the line of labels based on playing field width
+            out: -
+            todo: property
+        '''
         logNameMethod = 'createFirstLine'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
 
@@ -488,7 +593,9 @@ class Game(Menubar):
 
 def main():
     '''
-        TODO Docstring
+        in: -
+        do: main
+        out: -
     '''
 
     LOG_FILENAME = 'Debugfile.log'
