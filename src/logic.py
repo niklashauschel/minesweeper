@@ -15,17 +15,17 @@ filename = 'logic'
 class Board():
 
     """
-    creating and working an the board
-    tkinter need the totall different  position of colum and row
+        creating and working an the board
+        tkinter need the totall different  position of colum and row
     """
 
     def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
         """
-        in: rows and colums and bombs all numbers or an board for testing cases
-        do: create a list with bombs and notboms fileds and shuffle them randomly
-            then formate this list to an 2d array or only the board for testing cases as board 
-        out: the 2d array with random bombs or the tsting case board
-        TODO: add Properties  set for rows, colums, bombs, board
+            in: rows and colums and bombs all numbers or an board for testing cases
+            do: create a list with bombs and not bombs fileds and shuffle them randomly
+                then formate this list to an 2d array or only the board for testing cases as board
+            out: the 2d array with random bombs or the tsting case board
+            TODO: add Properties  set for rows, colums, bombs, board
         """
         self.logNameClass = 'Board'
         logNameMethod = '__init__'
@@ -48,8 +48,8 @@ class Board():
 
     def getBoard(self):
         """
-        getter for board
-        TODO: addProperties get for board
+            getter for board
+            TODO: addProperties get for board
         """
         logNameMethod = 'getBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -58,7 +58,7 @@ class Board():
 
     def getValueFromBoard(self, colum, row):
         """
-        getter for special value on index
+            getter for special value on index
         """
         logNameMethod = 'getValueFromBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -70,9 +70,9 @@ class Board():
 
     def getClickedFieldsAmount(self):
         """
-        in: board
-        do: count the clicked fileds
-        out: amound of clicked fileds
+            in: -
+            do: marked the clicked fileds
+            out: amound of clicked fileds
         """
         logNameMethod = 'getClieckedFieldsAmound'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -83,9 +83,9 @@ class Board():
 
     def createWarnFields(self):
         """
-        in: the board with only bombs and filed with no bombs
-        do: write on the filed with no bombs how much bombs are int the near
-        out: the filed with everyfiled the number of bombs in the near
+            in: -
+            do: write on the filed with no bombs how much bombs are int the near
+            out: the filed with everyfiled the number of bombs in the near
         """
         logNameMethod = 'createWarnFields'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -103,9 +103,9 @@ class Board():
 
     def setValueFromBoard(self, colum, row):
         """
-        in: board and position of clicked field
-        do: set the filed clicked (value=11)
-        out: -
+            in: position of clicked field
+            do: set the filed clicked (value=11)
+            out: -
         """
         logNameMethod = 'setValueFromBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -114,12 +114,12 @@ class Board():
 
     def getNeighbours(self, colum, row):
         '''
-        Free from minesweeper.py
-        why a extra method?
-        Because you need the Neighbours for a field  in morec then one Mthod
-        in: the colum and row from one field
-        do: calculate the neighbars
-        out: the neighbarsfrom one field
+            Free from minesweeper.py
+            why a extra method?
+            Because you need the Neighbours for a field  in morec then one Mthod
+            in: the colum and row from one field
+            do: calculate the neighbars
+            out: the neighbarsfrom one field
         '''
 
         NEIGHBOURS = ((-1, -1), (-1,  0), (-1,  1),
@@ -129,11 +129,11 @@ class Board():
 
     def getAllOtherOpenFields(self, colum, row, _openfields):
         '''
-        in: an field with no bombs in the neighborhood and
-        openfields list which is a list off allready calculatec that they have to be open in before rekursiv method call
-        has to be null to beginning
-        do: search all fields around which have no bombs around and also the first field which have bombs around
-        out: all fields which should open in minesweeper, if you press a button on the filed
+            in: an field with no bombs in the neighborhood and
+            openfields list which is a list off allready calculatec that they have to be open in before rekursiv method
+            call has to be null to beginning
+            do: search all fields around which have no bombs around and also the first field which have bombs around
+            out: all fields which should open in minesweeper, if you press a button on the filed
         '''
         logNameMethod = 'getAllOtherOpenFields'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -158,11 +158,11 @@ class Board():
 
     def checkAllNeighboursWhereBombs(self):
         """
-        One off the methods there are only needed for checking if it is logical solvable
-        in: the board after the method create warnfields
-        do: Check if a bomb has only bombs as neighbour if not
-            but all bombs off value off bomb
-        out: True or False
+            One off the methods there are only needed for checking if it is logical solvable
+            in: the board after the method create warnfields
+            do: Check if a bomb has only bombs as neighbour if not
+                but all bombs at the value off 10
+            out: True or False
         """
         logNameMethod = 'checkAllNeighboursWhereBombs'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -184,18 +184,18 @@ class Board():
 
     def isBoardSolvable(self):
         """
-        One off the methods there are only needed for checking if it is logical solvable
-        without it you can easily replace isBoardSolvable with createwarnfield in ooGUI.py 
-        and attach on  this method  and self.board[rowsneighbor][columsneighbor] != 10 in the ifclouse
-        in: the board after init and the output of checkAllNeighboursWhereBombs and if it work mirrorAxis
-        do: check if it is logical solvable
-        out: create new init for not solvable or do nothing for solvable
-        TODO: because logical solvable is not needed it is not check if it works, when it is not solvable in logical way
+            One off the methods there are only needed for checking if it is logical solvable
+            without it you can easily replace isBoardSolvable with createwarnfield in ooGUI.py 
+            and attach on  this method  and self.board[rowsneighbor][columsneighbor] != 10 in the ifclouse
+            in: the board after init and the output of checkAllNeighboursWhereBombs and if it work mirrorAxis
+            do: check if it is logical solvable
+            out: create new init for not solvable or do nothing for solvable
+            TODO: because logical solvable is not needed it is not check if it works, when it is not solvable in logical way
         """
         logNameMethod = 'isBoardSolvable'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         result = np.where(self.board == 8)
-        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):  
+        if((len(result[0]) != 0 and len(result[1]) != 0) or self.checkAllNeighboursWhereBombs()):
             # or self.mirrorAxis()
             log.debug('it is not solvable, create new board')
             self.__init__(self.colums, self.rows, self.bombs, None)
@@ -205,13 +205,13 @@ class Board():
 
     def mirrorAxis(self):
         """
-        One off the methods there are only needed for checking if it is logical solvable
-        in: the board off init
-        do: check if there are any mirrorAxis that make the game in most off the cases unsolvable in logcial way
-        examples off logical unsolvable fileds are in the folder notsolvable fields
-        out: if it has mirrorAxis or not
-        TODO: it is not tested and implement in the project, because this not part off the project needs
-              you have it seen only as idee
+            One off the methods there are only needed for checking if it is logical solvable
+            in: the board off init
+            do: check if there are any mirrorAxis that make the game in most off the cases unsolvable in logcial way
+            examples off logical unsolvable fileds are in the folder notsolvable fields
+            out: if it has mirrorAxis or not
+            TODO: it is not tested and implement in the project, because this not part off the project needs
+                  you have it seen only as idee
         """
         logNameMethod = 'mirrorAxis'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
