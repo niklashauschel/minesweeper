@@ -25,12 +25,12 @@ class Testlogic(unittest.TestCase):
     def test_GetValueFromBoard(self):
         """
         in: value from GetValueFromBoard, self calulate value
-        do: combare if the Method GetValueFromBoard 
+        do: combare if the Method GetValueFromBoard
         with a  the value from that is on the board itself
         out: if test run good or with an error
         """
-        testboard = np.array([[2, 0], 
-                              [0, 0]], dtype=int)
+        testboard = np.array([[2, 0],
+                             [0, 0]], dtype=int)
         test = logic.Board(2, 2, 0, testboard)
         self.assertEqual(2, test.getValueFromBoard(0, 0))
 
@@ -41,28 +41,24 @@ class Testlogic(unittest.TestCase):
         do:  Prepare for test and combare the inputs
         out:  if test run good or with an error
         """
-        
         testboard = np.array([[10, 0],
                               [0, 0]], dtype=int)
         test = logic.Board(2, 2, 1, testboard)
-        
         test.createWarnFields()
         HowTheBoardLooksLike = np.array([[10, 1],
                                          [1, 1]], dtype=int)
-                                
         self.assertTrue(np.array_equal(test.getBoard(), HowTheBoardLooksLike))
-    
+
     def test_GetAllOtherOpenFields(self):
-        ''' 
-        use these special testcase because off, it destroy the programm 
+        '''
+        use these special testcase because off, it destroy the programm
             by the first implementation from GetAllOtherFields
         in: the fields in on array off tubles that should, be open from GetAllOtherOpenFileds,
              the fields in on array off tubles that  open from GetAllOtherOpenFileds,
         do:  prepare the test and compare the inputs
         out:  if test run good or with an error
         '''
-           
-        testboard = np.array([[1, 1, 0, 1, 1],  
+        testboard = np.array([[1, 1, 0, 1, 1],
                               [10, 2, 1, 1, 10],
                               [2, 10, 1, 1, 1],
                               [1, 2, 2, 1, 0],
@@ -77,13 +73,13 @@ class Testlogic(unittest.TestCase):
     def test_GetAllOtherOpenFieldsNotReturnNone(self):
         """
         in: the output off all fileds with method GetAllOtherOpenFields
-        do: Check off if None back, this is because off this is the case if 
-        the GetAllOpenFields do not come to an return 
+        do: Check off if None back, this is because off this is the case if
+        the GetAllOpenFields do not come to an return
         out:  if test run good or with an error
         """
 
         test2 = logic.Board(10, 10, 1, None)
-        test2.createWarnFields()  # because sometimes they give None pack 
+        test2.createWarnFields()  # because sometimes they give None pack
         for i in [0, 10]:
             for j in [0, 10]:
                 listOfOpentest2 = test2.getAllOtherOpenFields(i, j, [])
@@ -93,19 +89,15 @@ class Testlogic(unittest.TestCase):
         """
         in: the output of getOpenFieldsAmount with the given field
         do: Check if the output and the self calculated value are the same
-        out: 
+        out: if test run good or with an error
         """
-        testboard = np.array([[1, 11, 0, 1, 1],  
+        testboard = np.array([[1, 11, 0, 1, 1],
                               [10, 2, 1, 1, 10],
                               [2, 11, 1, 11, 1],
                               [1, 2, 2, 1, 0],
                               [0, 1, 11, 1, 0]], dtype=int)
         getOpenFiledsAmountTestBoard = logic.Board(5, 5, 3, testboard)
         self.assertEqual(getOpenFiledsAmountTestBoard.getClickedFieldsAmount(), 4)
-    
-   
+
 if __name__ == '__main__':
     unittest.main()
-
-
-
