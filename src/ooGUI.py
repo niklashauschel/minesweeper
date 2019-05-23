@@ -13,7 +13,6 @@ from tkinter import *
 from logic import Board
 
 # Source for column row in tkinter https://diyodemag.com/education/secret_code_tkinter
-# TODO --> erster Klick keine mine!
 
 filename = 'ooGUI'
 
@@ -295,7 +294,9 @@ class Game(Menubar):
     def handleButtonClickLeft(self, event):
         '''
             in: click event
-            do: Handle the left click on a button
+            do: Handle the left click on a button. If the player hits with his first click the game will
+                recalculate the playground. So it isn't possible to lose the game with the first click.
+                The method isn't tested very good.
             out: -
             TODO: property
         '''
@@ -303,6 +304,18 @@ class Game(Menubar):
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
         c, r = self.getRealButtonPosition(event)
         valueCell = self.board1.getValueFromBoard(c, r)
+
+        clickedCells = self.board1.getClickedFieldsAmount()
+        if clickedCells == 0:
+            log.debug('First Click on field')
+            while int(valueCell) == 10:
+                log.debug('You hit a mine with your first click')
+                log.debug('Board before recalculate it {}'.format(self.board1.getBoard()))
+                self.board1 = Board(self.column, self.row, self.mines, None)
+                self.board1.isBoardSolvable()
+                log.debug('Board after recalculate it {}'.format(self.board1.getBoard()))
+                valueCell = self.board1.getValueFromBoard(c, r)
+        
         log.debug('Button were clicked in column {} and row {} and have the value {}'.format(c, r, valueCell))
         if event.widget['bg'] == '#FF0000':
             event.widget.config(bg='#FFFFFF')
@@ -542,7 +555,7 @@ class Game(Menubar):
             log.debug('The player picked the hard degree. So the Game has {} columns, {} rows and {} mines'
                       .format(self.column, self.row, self.mines))
         self.clicksUntilVictory = (self.column * self.row) - self.mines
-        print('Clicks until victory', self.clicksUntilVictory)
+        log.debug('Clicks until victory {}'.format(self.clicksUntilVictory))
 
     def createBoard(self):
         '''
