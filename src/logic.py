@@ -16,7 +16,6 @@ class Board():
 
     """
         creating and working an the board
-        tkinter need the totall different  position of colum and row
     """
 
     def __init__(self, colums, rows, bombs, board):   # sometimes only board is use an rest the other
@@ -178,7 +177,6 @@ class Board():
                 rowsof10 = cord[0]
                 columsof10 = cord[1]
                 self.board[rowsof10][columsof10] = 10
-                print(self.board)
             log.debug('not all Neighbours are bombs')
             return False
 
@@ -190,7 +188,8 @@ class Board():
             in: the board after init and the output of checkAllNeighboursWhereBombs and if it work mirrorAxis
             do: check if it is logical solvable
             out: create new init for not solvable or do nothing for solvable
-            TODO: because logical solvable is not needed it is not check if it works, when it is not solvable in logical way
+            TODO: because logical solvable is not needed it is not check if it works, when it is not solvable in 
+                  logical way
         """
         logNameMethod = 'isBoardSolvable'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -219,7 +218,6 @@ class Board():
         halfrow = int(np.ceil(self.rows/2)) - 1
         for i in range(self.rows-1):
             for j in range(halfcolum):
-                print(i)
                 if(self.board[i][halfcolum - j - 1] == self.board[i][halfcolum + j] and
                    i == halfcolum):
                     return True
