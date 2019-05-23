@@ -5,19 +5,17 @@
     @ date : 22.06.2019
 """
 
-from tkinter import *
-from logic import Board
 from logging import *
 import time as t
 from datetime import *
+from tkinter import *
 
-filename = 'ooGUI'
-
+from logic import Board
 
 # Source for column row in tkinter https://diyodemag.com/education/secret_code_tkinter
-
-# TODO --> check if name is null
 # TODO --> erster Klick keine mine!
+
+filename = 'ooGUI'
 
 
 class Menubar:
@@ -39,10 +37,10 @@ class Menubar:
 
     def creatMenuBar(self):
         '''
-            in:
+            in: -
             do: Create the standard MenuBar for all of the windows
-            out:
-            todo: property
+            out: -
+            TODO: property
         '''
         logNameMethod = 'creatMenuBar'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -58,8 +56,9 @@ class Menubar:
     def helpUser(self):
         '''
             in: -
-            do: Creates a new window, where the rules of the game where the rules are described
+            do: Creates a new window, which descibes the rules of the game
             out: -
+            TODO: property
         '''
         logNameMethod = 'helpUser'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -77,6 +76,7 @@ class Menubar:
             in: -
             do: Close the window
             out: -
+            TODO: property
         '''
         logNameMethod = 'exitWindow'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -94,7 +94,7 @@ class HelpUserWindow(Menubar):
             in: master frame
             do: Create the window for the information about the game
             out: -
-            todo: property
+            TODO: property
         '''
         self.logNameClass = 'HelpUserWindow'
         logNameMethod = '__init__'
@@ -117,8 +117,8 @@ class HelpUserWindow(Menubar):
         '''
             in: -
             do: Overwrites the inherited method, so the windows, has another Menubar
-            out:
-            todo: property
+            out: -
+            TODO: property
         '''
         logNameMethod = 'creatMenuBar'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -140,7 +140,7 @@ class EndGame(Menubar):
             in: master frame, player name, win True or False, time
             do: create the window at the end of the game
             out: -
-            todo: property
+            TODO: property
         '''
         self.logNameClass = 'EndGame'
         logNameMethod = '__init__'
@@ -171,7 +171,7 @@ class Configuration(Menubar):
             in: master frame
             do: create the configruation window
             out: -
-            todo: property
+            TODO: property
         '''
         self.logNameClass = 'Configuration'
         logNameMethod = '__init__'
@@ -199,6 +199,7 @@ class Configuration(Menubar):
             in: -
             do: Create the Radiobuttons and set easy as the dafault value
             out: -
+            TODO: property
         '''
         self.radiobutton1 = Radiobutton(self.master, text="Easy", variable=self.v, value=1)
         self.radiobutton2 = Radiobutton(self.master, text="Medium", variable=self.v, value=2)
@@ -210,9 +211,12 @@ class Configuration(Menubar):
             in: -
             do: configure the game window
             out: -
+            TODO: property
         '''
         player = self.textfield.get("1.0", "end")
         player = player.strip()
+        if player == '':
+            player = 'Layer 8 error'
         degree_of_difficulty = self.v.get()
         root2 = Toplevel(self.master)
         myGUI = Game(root2, player, degree_of_difficulty)
@@ -233,7 +237,7 @@ class Game(Menubar):
             in: master frame, player name, degree_of_difficulty
             do: create the game window
             out: -
-            todo: property
+            TODO: property
         '''
         self.logNameClass = 'Game'
         logNameMethod = '__init__'
@@ -277,6 +281,7 @@ class Game(Menubar):
             do: Handle the right click on a button. Search Bug image for the first click on a button.
             The next change it back to the white image.
             out: -
+            TODO: property
         '''
         logNameMethod = 'handleButtonClickRight'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -292,6 +297,7 @@ class Game(Menubar):
             in: click event
             do: Handle the left click on a button
             out: -
+            TODO: property
         '''
         logNameMethod = 'handleButtonClickLeft'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -344,13 +350,12 @@ class Game(Menubar):
 
     def checkVictory(self):
         '''
-            in: -
+            in: click event
             do: Check if the game is over. At the beginning there are unclicked buttons(the product of column and row).
                 For every new click the game check if there are only the same number of unclicked buttons as the
                 number of mines.
             out: -
-            in: click event
-            todo: property
+            TODO: property
         '''
         logNameMethod = 'checkVictory'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -369,6 +374,7 @@ class Game(Menubar):
             in: win True or False, time
             do: The player clicked on a mine. Open all Buttons of the field
             out: -
+            TODO: property
         '''
         logNameMethod = 'endGame'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -389,6 +395,7 @@ class Game(Menubar):
             in: win True or False, time
             do: configure the endgame window
             out: -
+            TODO: property
         '''
         logNameMethod = 'configureEndGame'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -403,10 +410,11 @@ class Game(Menubar):
 
     def openOtherCells(self, event, c, r):
         '''
+            in: column (c), row (r)
             do: Open all cell around the clicked zero. Open a method from the logic and get a list.
                 The List are the cells which should be programmly clicked
-            in: column (c), row (r)
             out: -
+            TODO: property
         '''
         logNameMethod = 'openOtherCells'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -428,6 +436,7 @@ class Game(Menubar):
             in: valueCell, cellname
             do: Change the image of a cell with the Buttonname and unbind the click event
             out: -
+            TODO: property
         '''
         logNameMethod = 'changeImageOfCell'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -470,6 +479,7 @@ class Game(Menubar):
             in: -
             do: The method set up all images for the game
             out: -
+            TODO: property
         '''
         logNameMethod = 'setUpImages'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -492,6 +502,7 @@ class Game(Menubar):
             in: click event
             do: Calculate the real position of the Button, because on row is used for the Game information
             out: position column, row
+            TODO: property
         '''
         logNameMethod = 'getRealButtonPosition'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -507,8 +518,8 @@ class Game(Menubar):
         '''
             in: -
             do: Check the input degree_of_difficulty and get the playground size
-            out:
-            todo: proptery
+            out: -
+            TODO: proptery
         '''
         logNameMethod = 'setGameFieldSize'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -538,7 +549,7 @@ class Game(Menubar):
             in: -
             do: Create Board with module logic, need the column, row and the nuber of mines for the game
             out: -
-            todo: property
+            TODO: property
         '''
         logNameMethod = 'createBoard'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
@@ -554,7 +565,7 @@ class Game(Menubar):
             in: -
             do: First setup the Frame and configure the grid
             out: -
-            todo: property
+            TODO: property
             Source: https://stackoverflow.com/questions/7591294/how-to-create-a-self-resizing-grid-of-buttons-in-tkinter
         '''
         logNameMethod = 'setUpFrame'
@@ -572,7 +583,7 @@ class Game(Menubar):
             in: -
             do: Create first line of the game field and configure the line of labels based on playing field width
             out: -
-            todo: property
+            TODO: property
         '''
         logNameMethod = 'createFirstLine'
         log = getLogger(filename + '.' + self.logNameClass + '.' + logNameMethod)
